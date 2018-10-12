@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2019
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NutFomr", "NutFomr\NutFomr.csproj", "{8673CDA2-33E2-4E60-8341-47BB6399356B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8673CDA2-33E2-4E60-8341-47BB6399356B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8673CDA2-33E2-4E60-8341-47BB6399356B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8673CDA2-33E2-4E60-8341-47BB6399356B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8673CDA2-33E2-4E60-8341-47BB6399356B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D84072A-7BB5-4E11-B292-5C8A1292B7EC}
+	EndGlobalSection
+EndGlobal
