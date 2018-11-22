@@ -46,11 +46,16 @@ namespace NutForm
             var type = Type.GetTypeFromProgID("KOMPAS.Application.5");
             _kompas = (KompasObject) Activator.CreateInstance(type);
             _kompas.Visible = true;
+            StartKompasButton.Enabled = false;
+            CloseKompasButton.Enabled = true;
         }
 
         private void CloseKompasButton_Click(object sender, EventArgs e)
         {
             _kompas.Quit();
+            _kompas = null;
+            StartKompasButton.Enabled = true;
+            CloseKompasButton.Enabled = false;
         }
 
         private void NutAppForm_FormClosing(object sender, FormClosingEventArgs e)
