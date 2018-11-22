@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Kompas6API5;
+using NutApp;
+using KAPITypes;
 
 namespace NutForm
 {
@@ -17,57 +19,110 @@ namespace NutForm
         public NutAppForm()
         {
             InitializeComponent();
+            SetNut();
         }
 
+        #region Конструкторы
         private KompasObject _kompas;
+        private KompasConnector _kompasConnector = new KompasConnector();
+        private NutParameters _nutParam;
+        private NutBuilder _nutBuilder;
+        #endregion
 
         private void OKButton_Click(object sender, EventArgs e)
         {
+            //Document3D Doc3D;
+            //Doc3D = _kompas.Document3D();
+            //Doc3D.Create(false, true);
+            _nutParam = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text), 
+                                          Convert.ToDouble(DnomComboBox.Text), Convert.ToDouble(HeigthTextBox.Text), 
+                                          Convert.ToDouble(KeyTextBox.Text), Convert.ToInt32(AngleTextBox.Text));
 
+            if (_nutParam.Validation())
+            {
+                _nutBuilder = new NutBuilder(_kompas);
+                _nutBuilder.BuildDetail(_nutParam);
+            }
         }
 
         private void GOSTComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            
         }
 
+        /// <summary>
+        /// Кнопка меню "О программе"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Кнопка меню закрытия формы
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Кнопка запуска КОМПАС'а
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StartKompasButton_Click(object sender, EventArgs e)
         {
-            var type = Type.GetTypeFromProgID("KOMPAS.Application.5");
-            _kompas = (KompasObject) Activator.CreateInstance(type);
-            _kompas.Visible = true;
+            _kompas = _kompasConnector.Connect();
             StartKompasButton.Enabled = false;
             CloseKompasButton.Enabled = true;
+            OKButton.Enabled = true;
         }
 
+        /// <summary>
+        /// Кнопка закрытия КОМПАС'а
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseKompasButton_Click(object sender, EventArgs e)
         {
-            _kompas.Quit();
+            _kompasConnector.Disconnect();
             _kompas = null;
             StartKompasButton.Enabled = true;
             CloseKompasButton.Enabled = false;
+            OKButton.Enabled = false;
         }
 
+        /// <summary>
+        /// Событие на закрытие формы
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NutAppForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (_kompas != null)
             {
-                _kompas.Quit();
+                _kompasConnector.Disconnect();
             }
         }
 
         private void DnomComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void SetNut()
+        {
+            DoutTextBox.Text = "3,0";
+            DinTextBox.Text = "3,6";
+            DnomComboBox.Text = "2,0";
+            KeyTextBox.Text = "4,0";
+            HeigthTextBox.Text = "1,6";
+            AngleTextBox.Text = "15";
 
         }
     }

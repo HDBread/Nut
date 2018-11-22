@@ -8,6 +8,7 @@ namespace NutApp
 {
     public class NutParameters
     {
+    #region Описание полей
         /// <summary>
         /// Поле диаметра описанной окружности шестигранника
         /// </summary>
@@ -37,6 +38,7 @@ namespace NutApp
         /// Поле угла фаски головки
         /// </summary>
         private int _angle;
+    #endregion
 
         /// <summary>
         /// Конструктор класса параметров гайки
@@ -49,12 +51,12 @@ namespace NutApp
         /// <param name="angle">Угол фаски головки</param>
         public NutParameters(double diamOut, double diamIn, double dNom, double heigth, double keyParam, int angle)
         {
-            _diametrOut = diamOut;
-            _diametrIn = diamIn;
-            _dNom = dNom;
-            _heigth = heigth;
-            _keyParam = keyParam;
-            _angle = angle;
+            this._diametrOut = diamOut;
+            this._diametrIn = diamIn;
+            this._dNom = dNom;
+            this._heigth = heigth;
+            this._keyParam = keyParam;
+            this._angle = angle;
         }
 
         /// <summary>
@@ -66,6 +68,7 @@ namespace NutApp
             return true;
         }
 
+        #region Описание свойств
         /// <summary>
         /// Геттер описанной окружности шестигранника
         /// </summary>
@@ -113,5 +116,6 @@ namespace NutApp
         {
             get => _angle;
         }
+        #endregion
     }
 }

@@ -38,7 +38,7 @@
             this.TurnkeySize = new System.Windows.Forms.Label();
             this.DinTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.HigthTextBox = new System.Windows.Forms.TextBox();
+            this.HeigthTextBox = new System.Windows.Forms.TextBox();
             this.HeightLabel = new System.Windows.Forms.Label();
             this.KeyTextBox = new System.Windows.Forms.TextBox();
             this.DiameterInLabel = new System.Windows.Forms.Label();
@@ -131,13 +131,13 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Номинальный диметр резьбы (Dnom), мм";
             // 
-            // HigthTextBox
+            // HeigthTextBox
             // 
-            this.HigthTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.HigthTextBox.Location = new System.Drawing.Point(239, 109);
-            this.HigthTextBox.Name = "HigthTextBox";
-            this.HigthTextBox.Size = new System.Drawing.Size(63, 20);
-            this.HigthTextBox.TabIndex = 5;
+            this.HeigthTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.HeigthTextBox.Location = new System.Drawing.Point(239, 109);
+            this.HeigthTextBox.Name = "HeigthTextBox";
+            this.HeigthTextBox.Size = new System.Drawing.Size(63, 20);
+            this.HeigthTextBox.TabIndex = 5;
             // 
             // HeightLabel
             // 
@@ -259,7 +259,7 @@
             this.Controls.Add(this.TurnkeySize);
             this.Controls.Add(this.AngleTextBox);
             this.Controls.Add(this.KeyTextBox);
-            this.Controls.Add(this.HigthTextBox);
+            this.Controls.Add(this.HeigthTextBox);
             this.Controls.Add(this.DinTextBox);
             this.Controls.Add(this.DoutTextBox);
             this.Controls.Add(this.menuStrip);
@@ -286,7 +286,7 @@
         private System.Windows.Forms.Label TurnkeySize;
         private System.Windows.Forms.TextBox DinTextBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox HigthTextBox;
+        private System.Windows.Forms.TextBox HeigthTextBox;
         private System.Windows.Forms.Label HeightLabel;
         private System.Windows.Forms.TextBox KeyTextBox;
         private System.Windows.Forms.Label DiameterInLabel;

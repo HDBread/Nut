@@ -20,7 +20,7 @@ namespace NutApp
         /// <param name="kompasObj"></param>
         public NutBuilder(KompasObject kompasObj)
         {
-            _kompas = kompasObj;
+            this._kompas = kompasObj;
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace NutApp
         /// <param name="Param"></param>
         public void BuildDetail(NutParameters Param)
         {
-
+            
         }
     }
 }
