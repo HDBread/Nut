@@ -31,12 +31,9 @@ namespace NutForm
 
         private void OKButton_Click(object sender, EventArgs e)
         {
-            //Document3D Doc3D;
-            //Doc3D = _kompas.Document3D();
-            //Doc3D.Create(false, true);
             _nutParam = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text), 
                                           Convert.ToDouble(DnomComboBox.Text), Convert.ToDouble(HeigthTextBox.Text), 
-                                          Convert.ToDouble(KeyTextBox.Text), Convert.ToInt32(AngleTextBox.Text));
+                                          Convert.ToDouble(KeyTextBox.Text), Convert.ToInt32(AngleComboBox.Text));
 
             if (_nutParam.Validation())
             {
@@ -78,6 +75,7 @@ namespace NutForm
         private void StartKompasButton_Click(object sender, EventArgs e)
         {
             _kompas = _kompasConnector.Connect();
+            _kompas.Visible = true;
             StartKompasButton.Enabled = false;
             CloseKompasButton.Enabled = true;
             OKButton.Enabled = true;
@@ -117,12 +115,12 @@ namespace NutForm
 
         private void SetNut()
         {
-            DoutTextBox.Text = "3,0";
+            DoutTextBox.Text = "4,2";
             DinTextBox.Text = "3,6";
             DnomComboBox.Text = "2,0";
             KeyTextBox.Text = "4,0";
             HeigthTextBox.Text = "1,6";
-            AngleTextBox.Text = "15";
+            AngleComboBox.Text = "15";
 
         }
     }

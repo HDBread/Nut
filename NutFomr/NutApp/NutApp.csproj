@@ -31,35 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CONVERTLIBINTERFACES">
-      <HintPath>..\..\..\..\..\..\Библиотека\CONVERTLIBINTERFACES.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="KAPITypes">
-      <HintPath>..\..\..\..\..\..\Библиотека\KAPITypes.dll</HintPath>
-    </Reference>
-    <Reference Include="KGAXLib">
-      <HintPath>..\..\..\..\..\..\Библиотека\KGAXLib.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Kompas6API2D5COM">
-      <HintPath>..\..\..\..\..\..\Библиотека\Kompas6API2D5COM.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Kompas6API3D5COM">
-      <HintPath>..\..\..\..\..\..\Библиотека\Kompas6API3D5COM.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="Kompas6API5">
       <HintPath>..\..\..\КомБибл\Kompas6API5.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Kompas6Constants">
-      <HintPath>..\..\..\..\..\..\Библиотека\Kompas6Constants.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Kompas6Constants3D">
-      <HintPath>..\..\..\..\..\..\Библиотека\Kompas6Constants3D.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="KompasAPI7">
@@ -74,10 +47,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="VCHATCHLib">
-      <HintPath>..\..\..\..\..\..\Библиотека\VCHATCHLib.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KompasConnector.cs" />

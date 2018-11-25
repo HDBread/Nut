@@ -43,12 +43,12 @@
             this.KeyTextBox = new System.Windows.Forms.TextBox();
             this.DiameterInLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.AngleTextBox = new System.Windows.Forms.TextBox();
             this.AngleLabel = new System.Windows.Forms.Label();
             this.OKButton = new System.Windows.Forms.Button();
             this.DnomComboBox = new System.Windows.Forms.ComboBox();
             this.StartKompasButton = new System.Windows.Forms.Button();
             this.CloseKompasButton = new System.Windows.Forms.Button();
+            this.AngleComboBox = new System.Windows.Forms.ComboBox();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -177,14 +177,6 @@
             this.label4.TabIndex = 2;
             this.label4.Text = "Диметр описанной окружности (Dout), мм";
             // 
-            // AngleTextBox
-            // 
-            this.AngleTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AngleTextBox.Location = new System.Drawing.Point(239, 187);
-            this.AngleTextBox.Name = "AngleTextBox";
-            this.AngleTextBox.Size = new System.Drawing.Size(63, 20);
-            this.AngleTextBox.TabIndex = 8;
-            // 
             // AngleLabel
             // 
             this.AngleLabel.AutoSize = true;
@@ -242,6 +234,20 @@
             this.CloseKompasButton.UseVisualStyleBackColor = true;
             this.CloseKompasButton.Click += new System.EventHandler(this.CloseKompasButton_Click);
             // 
+            // AngleComboBox
+            // 
+            this.AngleComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AngleComboBox.FormattingEnabled = true;
+            this.AngleComboBox.Items.AddRange(new object[] {
+            "15",
+            "30"});
+            this.AngleComboBox.Location = new System.Drawing.Point(239, 187);
+            this.AngleComboBox.Name = "AngleComboBox";
+            this.AngleComboBox.Size = new System.Drawing.Size(63, 21);
+            this.AngleComboBox.TabIndex = 3;
+            this.AngleComboBox.Text = "15";
+            this.AngleComboBox.SelectedIndexChanged += new System.EventHandler(this.DnomComboBox_SelectedIndexChanged);
+            // 
             // NutAppForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -249,6 +255,7 @@
             this.ClientSize = new System.Drawing.Size(314, 249);
             this.Controls.Add(this.CloseKompasButton);
             this.Controls.Add(this.StartKompasButton);
+            this.Controls.Add(this.AngleComboBox);
             this.Controls.Add(this.DnomComboBox);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.AngleLabel);
@@ -257,7 +264,6 @@
             this.Controls.Add(this.HeightLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TurnkeySize);
-            this.Controls.Add(this.AngleTextBox);
             this.Controls.Add(this.KeyTextBox);
             this.Controls.Add(this.HeigthTextBox);
             this.Controls.Add(this.DinTextBox);
@@ -291,12 +297,12 @@
         private System.Windows.Forms.TextBox KeyTextBox;
         private System.Windows.Forms.Label DiameterInLabel;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox AngleTextBox;
         private System.Windows.Forms.Label AngleLabel;
         private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.ComboBox DnomComboBox;
         private System.Windows.Forms.Button StartKompasButton;
         private System.Windows.Forms.Button CloseKompasButton;
+        private System.Windows.Forms.ComboBox AngleComboBox;
     }
 }
 
