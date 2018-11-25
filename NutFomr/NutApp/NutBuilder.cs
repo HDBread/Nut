@@ -39,7 +39,11 @@ namespace NutApp
             doc3D = _kompas.Document3D();
             doc3D.Create(false, true);
 
-            BuildModel(nutParameters.Dnom, nutParameters.DiametrOut);            BuildExtrusion(nutParameters.Heigth);            BuildChamfer(nutParameters.Dnom, nutParameters.Angle);            BuildIndentation(nutParameters.DiametrOut, nutParameters.Heigth);
+            BuildModel(nutParameters.Dnom, nutParameters.DiametrOut);
+            BuildExtrusion(nutParameters.Heigth);
+            BuildChamfer(nutParameters.Dnom, nutParameters.Angle, nutParameters.DiametrOut);
+            BuildIndentation(nutParameters.DiametrOut, nutParameters.Heigth);
+
         }
 
         /// <summary>
@@ -117,7 +121,7 @@ namespace NutApp
         /// </summary>
         /// <param name="dNom">Номинальный диметр резьбы</param>
         /// <param name="angle">Угол фаски головки</param>
-        private void BuildChamfer(double dNom, int angle)
+        private void BuildChamfer(double dNom, int angle, double diametrOut)
         {
             #region Константы для фаски
             // Тип получения массива объектов. Выбираются поверхности.
@@ -129,33 +133,49 @@ namespace NutApp
             #endregion
 
             //Получаем интерфейс объекта "фаска"
-            ksEntity EntityChamfer = (Part.NewEntity(o3d_chamfer));
+            ksEntity EntityChamferOut = (Part.NewEntity(o3d_chamfer));
+            ksEntity EntityChamferIn = (Part.NewEntity(o3d_chamfer));
+
             //Получаем интерфейс параметров объекта "скругление"
-            ksChamferDefinition ChamferDefinition = EntityChamfer.GetDefinition();
+            ksChamferDefinition ChamferDefinitionOut = EntityChamferOut.GetDefinition();
+            ksChamferDefinition ChamferDefinitionIn = EntityChamferIn.GetDefinition();
+
             //Не продолжать по касательным ребрам
-            ChamferDefinition.tangent = true;
-            //Устанавливаем параметры фаски
-            ChamferDefinition.SetChamferParam(true, dNom/10, (dNom/10)/ index);
-            //Получаем массив граней детали
+            ChamferDefinitionOut.tangent = false;
+            ChamferDefinitionIn.tangent = false;
+
+            //Устанавливаем параметры фаски внешней поверхности
+            ChamferDefinitionOut.SetChamferParam(true, diametrOut / 10, (diametrOut / 10) / index);
+            //Устанавливаем параметры фаски внутренней поверхности
+            ChamferDefinitionIn.SetChamferParam(true, dNom / 10, (dNom / 10) / index);
+
+            //Получаем массив поверхностей детали
             ksEntityCollection EntityCollectionPart = (Part.EntityCollection(o3d_face));
-            //Получаем массив граней, на которых будет строиться фаска
-            ksEntityCollection EntityCollectionChamfer = (ChamferDefinition.array());
-            EntityCollectionChamfer.Clear();
-            //Заполняем массив граней, на которых будет строится фаска (все грани)
-            for(int i = 0; i < 4; i++)
-            {
-                EntityCollectionChamfer.Add(EntityCollectionPart.GetByIndex(i));
-            }            
+
+            //Получаем массив поверхностей, на которых будет строиться фаска
+            ksEntityCollection EntityCollectionChamferOut = (ChamferDefinitionOut.array());
+            ksEntityCollection EntityCollectionChamferIn = (ChamferDefinitionIn.array());
+            EntityCollectionChamferOut.Clear();
+            EntityCollectionChamferIn.Clear();
+
+            //Заполняем массив поверхностей, на которых будет строится фаска (Внешняя поверхность)
+            EntityCollectionChamferOut.Add(EntityCollectionPart.GetByIndex(2));
+            //Заполняем массив поверхностей, на которых будет строится фаска (Внутреняя поверхность)
+            EntityCollectionChamferIn.Add(EntityCollectionPart.GetByIndex(1));
+
             //Создаем фаску
-            EntityChamfer.Create();
+            EntityChamferOut.Create();
+            EntityChamferIn.Create();
         }
 
         /// <summary>
-        /// Вдавливание
+        /// Операция "Вырезание выдавливанием"
         /// </summary>
+        /// <param name="diametrOut">Внешний диаметр резьбы</param>
+        /// <param name="heigth">Высота гайки</param>
         private void BuildIndentation(double diametrOut, double heigth)
         {
-            #region Константы для вдавливания и построения шестиугольника
+            #region Константы для вырезания и построения шестиугольника
             //Тип объекта NewEntity. Указывает на создание эскиза.
             const int o3d_sketch = 5;
 
