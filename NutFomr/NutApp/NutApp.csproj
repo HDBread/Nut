@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExeptionsEnum.cs" />
     <Compile Include="KompasConnector.cs" />
     <Compile Include="NutBuilder.cs" />
     <Compile Include="NutParameters.cs" />

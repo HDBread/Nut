@@ -41,7 +41,7 @@ namespace NutApp
 
             BuildModel(nutParameters.Dnom, nutParameters.DiametrOut);
             BuildExtrusion(nutParameters.Heigth);
-            BuildChamfer(nutParameters.Dnom, nutParameters.Angle, nutParameters.DiametrOut);
+            BuildChamfer(nutParameters.Dnom, nutParameters.Angle, nutParameters.KeyParam);
             BuildIndentation(nutParameters.DiametrOut, nutParameters.Heigth);
 
         }
@@ -121,7 +121,7 @@ namespace NutApp
         /// </summary>
         /// <param name="dNom">Номинальный диметр резьбы</param>
         /// <param name="angle">Угол фаски головки</param>
-        private void BuildChamfer(double dNom, int angle, double diametrOut)
+        private void BuildChamfer(double dNom, int angle, double KeyParam)
         {
             #region Константы для фаски
             // Тип получения массива объектов. Выбираются поверхности.
@@ -145,7 +145,7 @@ namespace NutApp
             ChamferDefinitionIn.tangent = false;
 
             //Устанавливаем параметры фаски внешней поверхности
-            ChamferDefinitionOut.SetChamferParam(true, diametrOut / 10, (diametrOut / 10) / index);
+            ChamferDefinitionOut.SetChamferParam(true, KeyParam / 10, (KeyParam / 10) / index);
             //Устанавливаем параметры фаски внутренней поверхности
             ChamferDefinitionIn.SetChamferParam(true, dNom / 10, (dNom / 10) / index);
 

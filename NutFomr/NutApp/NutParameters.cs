@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace NutApp
 {
+    enum ParameterExeptions
+    {
+        DiametrOutExeption = 1,
+        DiameterInExeption,
+        DiametrNom,
+        HeigthExeption,
+        KeyParameterExeption,
+        AngleExeption,
+        Default
+    }
+
     public class NutParameters
     {
     #region Описание полей
@@ -51,21 +62,37 @@ namespace NutApp
         /// <param name="angle">Угол фаски головки</param>
         public NutParameters(double diamOut, double diamIn, double dNom, double heigth, double keyParam, int angle)
         {
-            this._diametrOut = diamOut;
-            this._diametrIn = diamIn;
-            this._dNom = dNom;
-            this._heigth = heigth;
-            this._keyParam = keyParam;
-            this._angle = angle;
+            switch (Validation( diamOut,  diamIn,  dNom,  heigth,  keyParam,  angle))
+            {
+                case ParameterExeptions.AngleExeption:
+                    {
+                        break;
+                    }
+                default:
+                    {
+                        this._diametrOut = diamOut;
+                        this._diametrIn = diamIn;
+                        this._dNom = dNom;
+                        this._heigth = heigth;
+                        this._keyParam = keyParam;
+                        this._angle = angle;
+                        break;
+                    }
+            }
         }
 
         /// <summary>
         /// Метод валидации параметров гайки
         /// </summary>
         /// <returns></returns>
-        public bool Validation()
+        private ParameterExeptions Validation(double diamOut, double diamIn, double dNom, double heigth, double keyParam, int angle)
         {
-            return true;
+            if (diamOut < diamOut - (diamOut / 10) || diamOut > diamOut + (diamOut / 10))
+            {
+                return ParameterExeptions.DiametrOutExeption;
+            }
+            return ParameterExeptions.Default;
+
         }
 
         #region Описание свойств

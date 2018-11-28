@@ -31,15 +31,13 @@ namespace NutForm
 
         private void OKButton_Click(object sender, EventArgs e)
         {
-            _nutParam = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text), 
-                                          Convert.ToDouble(DnomComboBox.Text), Convert.ToDouble(HeigthTextBox.Text), 
+            _nutParam = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text),
+                                          Convert.ToDouble(DnomComboBox.Text), Convert.ToDouble(HeigthTextBox.Text),
                                           Convert.ToDouble(KeyTextBox.Text), Convert.ToInt32(AngleComboBox.Text));
 
-            if (_nutParam.Validation())
-            {
-                _nutBuilder = new NutBuilder(_kompas);
-                _nutBuilder.BuildDetail(_nutParam);
-            }
+            _nutBuilder = new NutBuilder(_kompas);
+            _nutBuilder.BuildDetail(_nutParam);
+
         }
 
         private void GOSTComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -121,7 +119,6 @@ namespace NutForm
             KeyTextBox.Text = "4,0";
             HeigthTextBox.Text = "1,6";
             AngleComboBox.Text = "15";
-
         }
     }
 }
