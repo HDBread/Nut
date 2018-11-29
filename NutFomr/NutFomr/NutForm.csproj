@@ -33,15 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KAPITypes">
-      <HintPath>..\..\..\..\..\..\Библиотека\KAPITypes.dll</HintPath>
-    </Reference>
     <Reference Include="Kompas6API5">
-      <HintPath>..\..\..\КомБибл\Kompas6API5.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="KompasAPI7">
-      <HintPath>..\..\..\КомБибл\KompasAPI7.dll</HintPath>
+      <HintPath>..\..\Kompas6API5.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />

@@ -10,7 +10,6 @@ using System.Windows.Forms;
 
 using Kompas6API5;
 using NutApp;
-using KAPITypes;
 
 namespace NutForm
 {
@@ -31,9 +30,16 @@ namespace NutForm
 
         private void OKButton_Click(object sender, EventArgs e)
         {
-            _nutParam = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text),
-                                          Convert.ToDouble(DnomComboBox.Text), Convert.ToDouble(HeigthTextBox.Text),
-                                          Convert.ToDouble(KeyTextBox.Text), Convert.ToInt32(AngleComboBox.Text));
+            try
+            {
+                _nutParam = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text),
+                    Convert.ToDouble(DnomComboBox.Text), Convert.ToDouble(HeigthTextBox.Text),
+                    Convert.ToDouble(KeyTextBox.Text), Convert.ToInt32(AngleComboBox.Text));
+            }
+            catch(ArgumentException)
+            {
+
+            }
 
             _nutBuilder = new NutBuilder(_kompas);
             _nutBuilder.BuildDetail(_nutParam);
@@ -114,7 +120,7 @@ namespace NutForm
         private void SetNut()
         {
             DoutTextBox.Text = "4,2";
-            DinTextBox.Text = "3,6";
+            DinTextBox.Text = (Convert.ToInt32(DnomComboBox.Text) * 0.85).ToString();
             DnomComboBox.Text = "2,0";
             KeyTextBox.Text = "4,0";
             HeigthTextBox.Text = "1,6";

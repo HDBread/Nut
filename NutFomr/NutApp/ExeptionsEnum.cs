@@ -8,5 +8,14 @@ namespace NutApp
 {
     class ExeptionsEnum
     {
+        enum ParameterExeptions
+        {
+            DiametrOutExeption = 1,
+            DiameterInExeption,
+            DiametrNom,
+            HeigthExeption,
+            KeyParameterExeption,
+            AngleExeption
+        }
     }
 }

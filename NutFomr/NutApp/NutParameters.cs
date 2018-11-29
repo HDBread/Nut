@@ -6,16 +6,6 @@ using System.Threading.Tasks;
 
 namespace NutApp
 {
-    enum ParameterExeptions
-    {
-        DiametrOutExeption = 1,
-        DiameterInExeption,
-        DiametrNom,
-        HeigthExeption,
-        KeyParameterExeption,
-        AngleExeption,
-        Default
-    }
 
     public class NutParameters
     {
@@ -62,22 +52,20 @@ namespace NutApp
         /// <param name="angle">Угол фаски головки</param>
         public NutParameters(double diamOut, double diamIn, double dNom, double heigth, double keyParam, int angle)
         {
-            switch (Validation( diamOut,  diamIn,  dNom,  heigth,  keyParam,  angle))
+            List<ExeptionsEnum> exeptionsList = new List<ExeptionsEnum>();
+            Validation(exeptionsList);
+            if (exeptionsList.Count == 0)
             {
-                case ParameterExeptions.AngleExeption:
-                    {
-                        break;
-                    }
-                default:
-                    {
-                        this._diametrOut = diamOut;
-                        this._diametrIn = diamIn;
-                        this._dNom = dNom;
-                        this._heigth = heigth;
-                        this._keyParam = keyParam;
-                        this._angle = angle;
-                        break;
-                    }
+                this._diametrOut = diamOut;
+                this._diametrIn = diamIn;
+                this._dNom = dNom;
+                this._heigth = heigth;
+                this._keyParam = keyParam;
+                this._angle = angle;
+            }
+            else
+            {
+                throw new ArgumentException("Ошибка при вводе данных");
             }
         }
 
@@ -85,14 +73,13 @@ namespace NutApp
         /// Метод валидации параметров гайки
         /// </summary>
         /// <returns></returns>
-        private ParameterExeptions Validation(double diamOut, double diamIn, double dNom, double heigth, double keyParam, int angle)
+        private void Validation(List<ExeptionsEnum> exeptionsList)
         {
-            if (diamOut < diamOut - (diamOut / 10) || diamOut > diamOut + (diamOut / 10))
+            ExeptionsEnum exeptions = new ExeptionsEnum();
+            if (DiametrOut < DiametrOut - (DiametrOut / 10) || DiametrOut > DiametrOut + (DiametrOut / 10))
             {
-                return ParameterExeptions.DiametrOutExeption;
+                exeptionsList.Add(exeptions);
             }
-            return ParameterExeptions.Default;
-
         }
 
         #region Описание свойств
