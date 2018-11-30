@@ -51,7 +51,7 @@ namespace NutApp
         /// </summary>
         /// <param name="dNom">Номинальный диаметр резьбы</param>
         /// <param name="diametrOut">Внешний диаметр резьбы</param>
-        private void BuildModel(double dIn, double diametrOut)
+        private void BuildModel(double diameterIn, double diametrOut)
         {
             #region Константы для эскиза
             // Тип компо­нента Get Param. Главный компонент, в составе которо­го находится новый или редактируе­мый компонент.
@@ -79,7 +79,7 @@ namespace NutApp
             //Входим в режим редактирования эскиза
             ksDocument2D Document2D = SketchDefinition.BeginEdit();
             //Строим окружность (Указывается радиус, поэтому диаметр делим попалам)
-            Document2D.ksCircle(0, 0, dIn / 2, 1);
+            Document2D.ksCircle(0, 0, diameterIn / 2, 1);
             Document2D.ksCircle(0, 0, diametrOut / 2, 1);
             //Выходим из режима редактирования эскиза
             SketchDefinition.EndEdit();
@@ -121,7 +121,7 @@ namespace NutApp
         /// </summary>
         /// <param name="dNom">Номинальный диметр резьбы</param>
         /// <param name="angle">Угол фаски головки</param>
-        private void BuildChamfer(double dIn, int angle, double keyParam)
+        private void BuildChamfer(double diameterIn, int angle, double keyParam)
         {
             #region Константы для фаски
             // Тип получения массива объектов. Выбираются поверхности.
@@ -145,7 +145,7 @@ namespace NutApp
             ChamferDefinitionIn.tangent = false;
 
             //Устанавливаем параметры фаски внешней поверхности
-            ChamferDefinitionOut.SetChamferParam(true, dIn / 10, (dIn / 10) / index);
+            ChamferDefinitionOut.SetChamferParam(true, diameterIn / 10, (diameterIn / 10) / index);
             //Устанавливаем параметры фаски внутренней поверхности
             ChamferDefinitionIn.SetChamferParam(true, keyParam / 10, (keyParam / 10) / index);
 
@@ -249,8 +249,40 @@ namespace NutApp
         /// <summary>
         /// Резьба
         /// </summary>
-        private void BuildThread()
+        private void BuildThread(double diameterNom)
         {
+            #region Константы для резьбы
+
+            // Тип компо­нента Get Param. Главный компонент, в составе которо­го находится новый или редактируе­мый компонент.
+            const int pTop_part = -1;
+
+            //Тип объекта NewEntity. Указывает на создание эскиза.
+            const int o3d_sketch = 5;
+
+            // Тип объекта GetDefaultEntity. Указывает на работу в плостости XOY.
+            const int o3d_planeXOY = 1;
+
+            #endregion
+
+            //Получаем интерфейс 3D-модели 
+            Part = doc3D.GetPart(pTop_part);
+            //Получаем интерфейс объекта "Эскиз"
+            EntityDraw = Part.NewEntity(o3d_sketch);
+            //Получаем интерфейс параметров эскиза
+            ksSketchDefinition SketchDefinition = EntityDraw.GetDefinition();
+            //Получаем интерфейс объекта "плоскость XOY"
+            ksEntity EntityPlane = Part.GetDefaultEntity(o3d_planeXOY);
+            //Устанавливаем плоскость XOY базовой для эскиза
+            SketchDefinition.SetPlane(EntityPlane);
+            //Создаем эскиз
+            EntityDraw.Create();
+            //Входим в режим редактирования эскиза
+            ksDocument2D Document2D = SketchDefinition.BeginEdit();
+            //Строим окружность (Указывается радиус, поэтому диаметр делим попалам)
+            Document2D.ksCircle(0, 0, diameterIn / 2, 1);
+            Document2D.ksCircle(0, 0, diametrOut / 2, 1);
+            //Выходим из режима редактирования эскиза
+            SketchDefinition.EndEdit();
 
         }
     }

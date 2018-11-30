@@ -24,35 +24,32 @@ namespace NutForm
         #region Конструкторы
         private KompasObject _kompas;
         private KompasConnector _kompasConnector = new KompasConnector();
-        private NutParameters _nutParameters;
         private NutBuilder _nutBuilder;
         #endregion
 
         private void OKButton_Click(object sender, EventArgs e)
         {
-            NutParameters nutParameters;
             StartKompasButton_Click(sender,e);
-            try
+
+            NutParameters nutParameters = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text),
+                    Convert.ToDouble(DnomComboBox.SelectedItem), Convert.ToDouble(HeightTextBox.Text),
+                    Convert.ToDouble(KeyTextBox.Text), Convert.ToInt32(AngleComboBox.SelectedItem));
+            if (nutParameters.ExeptionsList.Count != 0)
             {
-                _nutParameters = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text),
-                    Convert.ToDouble(DnomComboBox.Text), Convert.ToDouble(HeigthTextBox.Text),
-                    Convert.ToDouble(KeyTextBox.Text), Convert.ToInt32(AngleComboBox.Text));
-            }
-            catch(ArgumentException)
-            {
-                foreach (var exeptionsList in _nutParameters.ExeptionsList)
+                string exeptionsMessage = "Неправильны были введены следующие параметры:\n";
+                foreach (var exeptionsList in nutParameters.ExeptionsList)
                 {
-                    if (exeptionsList == ParameterExeptions.DiametrOutExeption)
-                    {
-                        MessageBox.Show("Ошибка при вводе параметра внешнего диаметра резьбы", "Ошибка ввода",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    exeptionsMessage = Reporter.CheckingExeptions(exeptionsList,exeptionsMessage);
                 }
+
+                MessageBox.Show(exeptionsMessage, "Печерень ошибок",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            _nutBuilder = new NutBuilder(_kompas);
-            _nutBuilder.BuildDetail(_nutParameters);
-
+            else
+            {
+                _nutBuilder = new NutBuilder(_kompas);
+                _nutBuilder.BuildDetail(nutParameters);
+            }
         }
 
         private void GOSTComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -128,11 +125,11 @@ namespace NutForm
 
         private void SetNut()
         {
+            DnomComboBox.Text = "2";
             DoutTextBox.Text = "4,2";
-            DinTextBox.Text = (Convert.ToInt32(DnomComboBox.Text) * 0.85).ToString();
-            DnomComboBox.Text = "2,0";
+            DinTextBox.Text = (Convert.ToDouble(DnomComboBox.SelectedItem) * 0.85).ToString();
             KeyTextBox.Text = "4,0";
-            HeigthTextBox.Text = "1,6";
+            HeightTextBox.Text = "1,6";
             AngleComboBox.Text = "15";
         }
     }

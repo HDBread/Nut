@@ -8,11 +8,11 @@ namespace NutApp
 {
     public enum ParameterExeptions
     {
-        DiametrOutExeption = 1,
-        DiameterInExeption,
-        DiametrNom,
-        HeigthExeption,
-        KeyParameterExeption,
-        AngleExeption
+        OutOfRangeDiametrOut = 1,
+        OutOfRangeHeight,
+        OutOfrangeKeyParameter,
+        NegativevalueDiametrOut,
+        NegativeValueHeight,
+        NegativeValueKeyParameter
     }
 }

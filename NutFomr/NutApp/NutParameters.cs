@@ -28,7 +28,7 @@ namespace NutApp
         /// <summary>
         /// Поле высоты гайки
         /// </summary>
-        private double _heigth;
+        private double _height;
 
         /// <summary>
         /// Поле размера под ключ
@@ -51,48 +51,77 @@ namespace NutApp
         /// <param name="diamOut">Диаметр описанной окружности шестигранника</param>
         /// <param name="diamIn">Внутренный диаметр резьбы</param>
         /// <param name="dNom">Номинальный диаметр резьбы</param>
-        /// <param name="heigth">Высота гайки</param>
+        /// <param name="height">Высота гайки</param>
         /// <param name="keyParam">Размер под ключ</param>
         /// <param name="angle">Угол фаски головки</param>
-        public NutParameters(double diamOut, double diamIn, double dNom, double heigth, double keyParam, int angle)
+        public NutParameters(double diamOut, double diamIn, double dNom, double height, double keyParam, int angle)
         {
             this._diametrOut = diamOut;
             this._diametrIn = diamIn;
             this._dNom = dNom;
-            this._heigth = heigth;
+            this._height = height;
             this._keyParam = keyParam;
             this._angle = angle;
-
-            _exeptionsList = Validation();
-
-            if (_exeptionsList.Count == 0)
-            {
-                throw new ArgumentException("Ошибка при вводе данных");
-            }
+            Validation();
         }
 
         /// <summary>
         /// Метод валидации параметров гайки
         /// </summary>
         /// <returns></returns>
-        private List<ParameterExeptions> Validation()
+        private void Validation()
         {
             double defaultDiamOut = 0;
+            double defaultHeight = 0;
+            double defaultKeyParam = 0;
             switch (_dNom)
             {
                 case 2:
                     defaultDiamOut = 4.2;
+                    defaultHeight = 1.6;
+                    defaultKeyParam = 4.0;
                     break;
-
+                case 2.5:
+                    defaultDiamOut = 5.3;
+                    defaultHeight = 2.0;
+                    defaultKeyParam = 5.0;
+                    break;
+                case 3:
+                    defaultDiamOut = 5.9;
+                    defaultHeight = 2.4;
+                    defaultKeyParam = 5.5;
+                    break;
             }
             
-            if (_diametrOut < defaultDiamOut - (defaultDiamOut / 10) || _diametrOut > defaultDiamOut + (defaultDiamOut / 10))
+            if ((_diametrOut < defaultDiamOut - (defaultDiamOut / 10) || _diametrOut > defaultDiamOut + (defaultDiamOut / 10)) && _diametrOut > 0)
             {
-
-                _exeptionsList.Add(ParameterExeptions.DiametrOutExeption);
+                _exeptionsList.Add(ParameterExeptions.OutOfRangeDiametrOut);
             }
 
-            return _exeptionsList;
+            if ((_height < defaultHeight - (defaultHeight / 10) || _height > defaultHeight + (defaultHeight / 10)) && _height > 0)
+            {
+                _exeptionsList.Add(ParameterExeptions.OutOfRangeHeight);
+            }
+
+            if ((_keyParam < defaultKeyParam - (defaultKeyParam / 10) || _keyParam > defaultKeyParam + (defaultKeyParam / 10)) && _keyParam > 0)
+            {
+                _exeptionsList.Add(ParameterExeptions.OutOfrangeKeyParameter);
+            }
+
+            if (_diametrOut <= 0)
+            {
+                _exeptionsList.Add(ParameterExeptions.NegativevalueDiametrOut);
+            }
+
+            if (_height <= 0)
+            {
+                _exeptionsList.Add(ParameterExeptions.NegativeValueHeight);
+            }
+
+            if (_keyParam <= 0)
+            {
+                _exeptionsList.Add(ParameterExeptions.NegativeValueKeyParameter);
+            }
         }
 
         #region Описание свойств
@@ -125,7 +154,7 @@ namespace NutApp
         /// </summary>
         public double Heigth
         {
-            get => _heigth;
+            get => _height;
         }
 
         /// <summary>
