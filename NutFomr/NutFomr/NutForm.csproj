@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Kompas6API5">
-      <HintPath>..\..\Kompas6API5.dll</HintPath>
+      <HintPath>..\..\..\КомБибл\Kompas6API5.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />

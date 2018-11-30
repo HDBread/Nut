@@ -39,7 +39,11 @@ namespace NutApp
         /// Поле угла фаски головки
         /// </summary>
         private int _angle;
-    #endregion
+
+        private List<ParameterExeptions> _exeptionsList = new List<ParameterExeptions>();
+
+        public List<ParameterExeptions> ExeptionsList => _exeptionsList;
+        #endregion
 
         /// <summary>
         /// Конструктор класса параметров гайки
@@ -52,18 +56,16 @@ namespace NutApp
         /// <param name="angle">Угол фаски головки</param>
         public NutParameters(double diamOut, double diamIn, double dNom, double heigth, double keyParam, int angle)
         {
-            List<ExeptionsEnum> exeptionsList = new List<ExeptionsEnum>();
-            Validation(exeptionsList);
-            if (exeptionsList.Count == 0)
-            {
-                this._diametrOut = diamOut;
-                this._diametrIn = diamIn;
-                this._dNom = dNom;
-                this._heigth = heigth;
-                this._keyParam = keyParam;
-                this._angle = angle;
-            }
-            else
+            this._diametrOut = diamOut;
+            this._diametrIn = diamIn;
+            this._dNom = dNom;
+            this._heigth = heigth;
+            this._keyParam = keyParam;
+            this._angle = angle;
+
+            _exeptionsList = Validation();
+
+            if (_exeptionsList.Count == 0)
             {
                 throw new ArgumentException("Ошибка при вводе данных");
             }
@@ -73,13 +75,24 @@ namespace NutApp
         /// Метод валидации параметров гайки
         /// </summary>
         /// <returns></returns>
-        private void Validation(List<ExeptionsEnum> exeptionsList)
+        private List<ParameterExeptions> Validation()
         {
-            ExeptionsEnum exeptions = new ExeptionsEnum();
-            if (DiametrOut < DiametrOut - (DiametrOut / 10) || DiametrOut > DiametrOut + (DiametrOut / 10))
+            double defaultDiamOut = 0;
+            switch (_dNom)
             {
-                exeptionsList.Add(exeptions);
+                case 2:
+                    defaultDiamOut = 4.2;
+                    break;
+
             }
+            
+            if (_diametrOut < defaultDiamOut - (defaultDiamOut / 10) || _diametrOut > defaultDiamOut + (defaultDiamOut / 10))
+            {
+
+                _exeptionsList.Add(ParameterExeptions.DiametrOutExeption);
+            }
+
+            return _exeptionsList;
         }
 
         #region Описание свойств

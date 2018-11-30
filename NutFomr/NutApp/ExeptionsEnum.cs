@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace NutApp
 {
-    class ExeptionsEnum
+    public enum ParameterExeptions
     {
-        enum ParameterExeptions
-        {
-            DiametrOutExeption = 1,
-            DiameterInExeption,
-            DiametrNom,
-            HeigthExeption,
-            KeyParameterExeption,
-            AngleExeption
-        }
+        DiametrOutExeption = 1,
+        DiameterInExeption,
+        DiametrNom,
+        HeigthExeption,
+        KeyParameterExeption,
+        AngleExeption
     }
 }

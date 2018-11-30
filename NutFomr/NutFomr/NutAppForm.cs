@@ -24,25 +24,34 @@ namespace NutForm
         #region Конструкторы
         private KompasObject _kompas;
         private KompasConnector _kompasConnector = new KompasConnector();
-        private NutParameters _nutParam;
+        private NutParameters _nutParameters;
         private NutBuilder _nutBuilder;
         #endregion
 
         private void OKButton_Click(object sender, EventArgs e)
         {
+            NutParameters nutParameters;
+            StartKompasButton_Click(sender,e);
             try
             {
-                _nutParam = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text),
+                _nutParameters = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text),
                     Convert.ToDouble(DnomComboBox.Text), Convert.ToDouble(HeigthTextBox.Text),
                     Convert.ToDouble(KeyTextBox.Text), Convert.ToInt32(AngleComboBox.Text));
             }
             catch(ArgumentException)
             {
-
+                foreach (var exeptionsList in _nutParameters.ExeptionsList)
+                {
+                    if (exeptionsList == ParameterExeptions.DiametrOutExeption)
+                    {
+                        MessageBox.Show("Ошибка при вводе параметра внешнего диаметра резьбы", "Ошибка ввода",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
 
             _nutBuilder = new NutBuilder(_kompas);
-            _nutBuilder.BuildDetail(_nutParam);
+            _nutBuilder.BuildDetail(_nutParameters);
 
         }
 

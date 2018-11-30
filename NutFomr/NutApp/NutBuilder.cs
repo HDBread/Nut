@@ -145,9 +145,9 @@ namespace NutApp
             ChamferDefinitionIn.tangent = false;
 
             //Устанавливаем параметры фаски внешней поверхности
-            ChamferDefinitionOut.SetChamferParam(true, keyParam / 10, (keyParam / 10) / index);
+            ChamferDefinitionOut.SetChamferParam(true, dIn / 10, (dIn / 10) / index);
             //Устанавливаем параметры фаски внутренней поверхности
-            ChamferDefinitionIn.SetChamferParam(true, dIn / 10, (dIn / 10) / index);
+            ChamferDefinitionIn.SetChamferParam(true, keyParam / 10, (keyParam / 10) / index);
 
             //Получаем массив поверхностей детали
             ksEntityCollection EntityCollectionPart = (Part.EntityCollection(o3d_face));
