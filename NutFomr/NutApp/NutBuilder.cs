@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kompas6API5;
+﻿using Kompas6API5;
 
 namespace NutApp
 {
@@ -21,7 +16,7 @@ namespace NutApp
 
 
         /// <summary>
-        /// Конструкток класса NutBuilder
+        /// Конструктор класса NutBuilder
         /// </summary>
         /// <param name="kompasObj">Экземпляр КОМПАС'а передаваемый в построитель</param>
         public NutBuilder(KompasObject kompasObj)
@@ -40,9 +35,10 @@ namespace NutApp
             doc3D.Create(false, true);
 
             BuildModel(nutParameters.DiametrIn, nutParameters.DiametrOut);
-            BuildExtrusion(nutParameters.Heigth);
+            BuildExtrusion(nutParameters.Height);
             BuildChamfer(nutParameters.DiametrIn, nutParameters.Angle, nutParameters.KeyParam);
-            BuildIndentation(nutParameters.DiametrOut, nutParameters.Heigth);
+            BuildIndentation(nutParameters.DiametrOut, nutParameters.Height);
+            BuildThread(nutParameters.Dnom, nutParameters.Height, nutParameters.DiametrIn);
 
         }
 
@@ -247,9 +243,12 @@ namespace NutApp
         }
 
         /// <summary>
-        /// Резьба
+        /// Операция "Резьба"
         /// </summary>
-        private void BuildThread(double diameterNom)
+        /// <param name="diametrNom">Номинальный диаметр резьбы</param>
+        /// <param name="height">Высота гайки</param>
+        /// <param name="diametrIn">Внутренний диаметр резьбы</param>
+        private void BuildThread(double diametrNom, double height, double diametrIn)
         {
             #region Константы для резьбы
 
@@ -257,33 +256,122 @@ namespace NutApp
             const int pTop_part = -1;
 
             //Тип объекта NewEntity. Указывает на создание эскиза.
+            const int o3d_planeOffset = 14;
+
+            //Тип объекта NewEntity. Указывает на создание эскиза.
             const int o3d_sketch = 5;
 
             // Тип объекта GetDefaultEntity. Указывает на работу в плостости XOY.
             const int o3d_planeXOY = 1;
 
+            // Тип объекта GetDefaultEntity. Указывает на работу в плостости XOZ.
+            const int o3d_planeXOZ = 2;
+
+            //Тип объекта NewEntity. Указывает на цилиндрическую спираль
+            const int o3d_cylindricSpiral = 56;
+
+            //Коэффициент для расчета угла в 15°
+            double index = (diametrNom / 10) / 1.6667;
+
+            //Расстояние для резьбы
+            double threadLength = diametrNom - diametrIn;
+
+            //Тип объекта NewEntity. Указывает на создание кинематического вырезания.
+            const int o3d_cutEvolution = 47;
+
+            //TODO: Понять почему нужно дополнительно смещать на сотую долю номинального диаметра для совпадения с диаметром фаски 
+            //Начальная точка фигуря для резьбы
+            double xStart = diametrNom / 2 + diametrNom/100;
+
             #endregion
 
             //Получаем интерфейс 3D-модели 
             Part = doc3D.GetPart(pTop_part);
+            //Получаем интерфейс объекта "смещенная плоскость"
+            ksEntity entityDrawOffset = Part.NewEntity(o3d_planeOffset);
+            //Получаем интерфейс параметров смещенной плоскости
+            ksPlaneOffsetDefinition planeDefinition = entityDrawOffset.GetDefinition();
+            //Задаем расстояние смещенной плоскости от объекта
+            planeDefinition.offset = 1;
+            //Задаем направление смещенной плоскости
+            planeDefinition.direction = false;
+            //Получаем интерфейс объекта "плоскость XOY"
+            ksEntity EntityPlaneOffset = Part.GetDefaultEntity(o3d_planeXOY);
+            //Получаем базовую плоскость смещенной плоскости по "XOY"
+            planeDefinition.SetPlane(EntityPlaneOffset);
+            //Создаем смещенную плоскость
+            entityDrawOffset.Create();
+
+            //Получаем интерфейс объекта "Цилиндрическая спираль"
+            ksEntity entityCylinderic = Part.NewEntity(o3d_cylindricSpiral);
+            //Получаем интерфейс параметров цилиндрической спирали
+            ksCylindricSpiralDefinition cylindricSpiral = entityCylinderic.GetDefinition();
+
+            cylindricSpiral.SetPlane(entityDrawOffset);
+
+            cylindricSpiral.buildDir = true;
+            cylindricSpiral.buildMode = 1;
+            cylindricSpiral.height = planeDefinition.offset + height + 1;
+            cylindricSpiral.diam = diametrNom;
+            cylindricSpiral.firstAngle = 0;
+            cylindricSpiral.turnDir = true;
+            cylindricSpiral.step = 0.4;
+            entityCylinderic.Create();
+
             //Получаем интерфейс объекта "Эскиз"
             EntityDraw = Part.NewEntity(o3d_sketch);
             //Получаем интерфейс параметров эскиза
-            ksSketchDefinition SketchDefinition = EntityDraw.GetDefinition();
-            //Получаем интерфейс объекта "плоскость XOY"
-            ksEntity EntityPlane = Part.GetDefaultEntity(o3d_planeXOY);
-            //Устанавливаем плоскость XOY базовой для эскиза
-            SketchDefinition.SetPlane(EntityPlane);
+            ksSketchDefinition sketchDefinition = EntityDraw.GetDefinition();
+            //Получаем интерфейс объекта "плоскость XOZ"
+            ksEntity EntityPlane = Part.GetDefaultEntity(o3d_planeXOZ);
+            //Получить базовую плоскость эскиза
+            sketchDefinition.SetPlane(EntityPlane);
             //Создаем эскиз
             EntityDraw.Create();
             //Входим в режим редактирования эскиза
-            ksDocument2D Document2D = SketchDefinition.BeginEdit();
-            //Строим окружность (Указывается радиус, поэтому диаметр делим попалам)
-            Document2D.ksCircle(0, 0, diameterIn / 2, 1);
-            Document2D.ksCircle(0, 0, diametrOut / 2, 1);
-            //Выходим из режима редактирования эскиза
-            SketchDefinition.EndEdit();
+            Document2D document2D = sketchDefinition.BeginEdit();
 
+            #region Построение фигуры для выдавливания резьбы
+            
+            //Построение верхней части левого отрезка
+            document2D.ksLineSeg(xStart, (planeDefinition.offset), xStart, (planeDefinition.offset + (index / 2) ), 1);
+            //Построение нижней части левого отрезка
+            document2D.ksLineSeg(xStart, (planeDefinition.offset), xStart, (planeDefinition.offset - (index / 2) ), 1);
+            //Построение верхней части правого отрезка
+            document2D.ksLineSeg((xStart - threadLength), (planeDefinition.offset), (xStart - threadLength),
+                (planeDefinition.offset + (index * 1.89318) / 2), 1);
+            //Построение нижней части правого отрезка
+            document2D.ksLineSeg((xStart - threadLength), (planeDefinition.offset), (xStart - threadLength),
+                (planeDefinition.offset - (index * 1.89318) / 2), 1);
+            //Поединение верхних частей отрезка
+            document2D.ksLineSeg(xStart, (planeDefinition.offset + (index / 2)), (xStart - threadLength),
+                (planeDefinition.offset + (index * 1.89318) / 2), 1);
+            //Соединение нижних частей отрезка
+            document2D.ksLineSeg(xStart, (planeDefinition.offset - (index / 2)), (xStart  - threadLength), 
+                (planeDefinition.offset - (index * 1.89318) / 2),1);
+
+            #endregion
+
+            //Выходим из режима редактирования эскиза
+            sketchDefinition.EndEdit();
+
+            //Получаем интерфейс операции
+            ksEntity entityCutEvolution= Part.NewEntity(o3d_cutEvolution);
+            //Получаем интерфейс параметров операции
+            ksCutEvolutionDefinition cutEvolutionDefinition = entityCutEvolution.GetDefinition();
+            //Вычитане объектов
+            cutEvolutionDefinition.cut= true;
+            //Тип движения
+            cutEvolutionDefinition.sketchShiftType= 1;
+            //Устанавливаем эскиз сечения
+            cutEvolutionDefinition.SetSketch(sketchDefinition);
+            //Получаем массив объектов
+            ksEntityCollection EntityCollection = (cutEvolutionDefinition.PathPartArray());
+            EntityCollection.Clear();
+            //Добавляем в массив эскиз с траекторией
+            EntityCollection.Add(entityCylinderic);
+            //Создаем операцию
+            entityCutEvolution.Create();
         }
     }
 }

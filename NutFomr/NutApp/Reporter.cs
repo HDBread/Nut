@@ -1,43 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NutApp
+﻿namespace NutApp
 {
     public class Reporter
     {
         public static string CheckingExeptions(ParameterExeptions exeptions, string exeptionsMessage)
         {
+            //Составление собщения ошибки при выходе за границы внутнего диаметра резьбы
             if (exeptions == ParameterExeptions.OutOfRangeDiametrOut)
             {
-                exeptionsMessage += "Внешный диаметр резьбы - выход за границы;\n";
+                exeptionsMessage += "Внешний диаметр резьбы - выход за границы;\n";
             }
 
+            //Составление собщения ошибки при выходе за границы высоты гайки
             if (exeptions == ParameterExeptions.OutOfRangeHeight)
             {
                 exeptionsMessage += "Высота гайки - выход за границы;\n";
             }
 
-            if (exeptions == ParameterExeptions.OutOfrangeKeyParameter)
+            //Составление собщения ошибки при выходе за границы параметра "под ключ"
+            if (exeptions == ParameterExeptions.OutOfRangeKeyParameter)
             {
-                exeptionsMessage += "Параметр \"под ключь\" - выход за границы;\n";
+                exeptionsMessage += "Параметр \"под ключ\" - выход за границы;\n";
             }
 
-            if (exeptions == ParameterExeptions.NegativevalueDiametrOut)
+            //Составление собщения ошибки при выходе за границы внутреннего диаметра резьбы
+            if (exeptions == ParameterExeptions.OutOfRangeDiametrIn)
             {
-                exeptionsMessage += "Внешный диаметр резьбы - значение нуливое или отрицательное;\n";
+                exeptionsMessage += "Внутренний диаметр резьбы - выход за границы;\n";
             }
 
+            //Составление собщения ошибки при нулевом или отрицательном значении внушнего диаметра резьбы
+            if (exeptions == ParameterExeptions.NegativeValueDiametrOut)
+            {
+                exeptionsMessage += "Внешний диаметр резьбы - значение нуливое или отрицательное;\n";
+            }
+
+            //Составление собщения ошибки при нулевом или отрицательном значении высоты гайки
             if (exeptions == ParameterExeptions.NegativeValueHeight)
             {
-                exeptionsMessage += "Внешный диаметр резьбы - значение нуливое или отрицательное;\n";
+                exeptionsMessage += "Высота гайки - значение нуливое или отрицательное;\n";
             }
 
+            //Составление собщения ошибки при нулевом или отрицательном значении параметра "под ключ"
             if (exeptions == ParameterExeptions.NegativeValueKeyParameter)
             {
-                exeptionsMessage += "Параметр \"под ключь\" - значение нуливое или отрицательное;\n";
+                exeptionsMessage += "Параметр \"под ключ\" - значение нуливое или отрицательное;\n";
+            }
+
+            //Составление собщения ошибки при нулевом или отрицательном значении внутреннего диаметра резьбы
+            if (exeptions == ParameterExeptions.NegativeValueDiametrIn)
+            {
+                exeptionsMessage += "Внутренний диаметр резьбы - значение нуливое или отрицательное;\n";
             }
 
             return exeptionsMessage;

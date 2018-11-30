@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NutApp
+﻿namespace NutApp
 {
     public enum ParameterExeptions
     {
         OutOfRangeDiametrOut = 1,
         OutOfRangeHeight,
-        OutOfrangeKeyParameter,
-        NegativevalueDiametrOut,
+        OutOfRangeKeyParameter,
+        OutOfRangeDiametrIn,
+        NegativeValueDiametrOut,
         NegativeValueHeight,
-        NegativeValueKeyParameter
+        NegativeValueKeyParameter,
+        NegativeValueDiametrIn
     }
 }

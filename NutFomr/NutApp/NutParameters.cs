@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace NutApp
 {
@@ -71,57 +67,84 @@ namespace NutApp
         /// <returns></returns>
         private void Validation()
         {
-            double defaultDiamOut = 0;
+            double defaultDiametrOut = 0;
             double defaultHeight = 0;
             double defaultKeyParam = 0;
+            double defaultDiametrIn = _dNom * 0.85;
             switch (_dNom)
             {
                 case 2:
-                    defaultDiamOut = 4.2;
+                    defaultDiametrOut = 4.2;
                     defaultHeight = 1.6;
                     defaultKeyParam = 4.0;
                     break;
                 case 2.5:
-                    defaultDiamOut = 5.3;
+                    defaultDiametrOut = 5.3;
                     defaultHeight = 2.0;
                     defaultKeyParam = 5.0;
                     break;
                 case 3:
-                    defaultDiamOut = 5.9;
+                    defaultDiametrOut = 5.9;
                     defaultHeight = 2.4;
                     defaultKeyParam = 5.5;
                     break;
             }
-            
-            if ((_diametrOut < defaultDiamOut - (defaultDiamOut / 10) || _diametrOut > defaultDiamOut + (defaultDiamOut / 10)) && _diametrOut > 0)
+
+            #region Проверка правильности ввода параметров
+
+            //Проверка внешнего диаметра резтьы на выход из границ
+            if ((_diametrOut < defaultDiametrOut - (defaultDiametrOut / 10) ||
+                 _diametrOut > defaultDiametrOut + (defaultDiametrOut / 10)) && _diametrOut > 0)
             {
                 _exeptionsList.Add(ParameterExeptions.OutOfRangeDiametrOut);
             }
 
-            if ((_height < defaultHeight - (defaultHeight / 10) || _height > defaultHeight + (defaultHeight / 10)) && _height > 0)
+            //Проверка высоты на выход из границ
+            if ((_height < defaultHeight - (defaultHeight / 10) || _height > defaultHeight + (defaultHeight / 10)) &&
+                _height > 0)
             {
                 _exeptionsList.Add(ParameterExeptions.OutOfRangeHeight);
             }
 
-            if ((_keyParam < defaultKeyParam - (defaultKeyParam / 10) || _keyParam > defaultKeyParam + (defaultKeyParam / 10)) && _keyParam > 0)
+            //Проверка параметра "под ключ" на выход из границ
+            if ((_keyParam < defaultKeyParam - (defaultKeyParam / 10) ||
+                 _keyParam > defaultKeyParam + (defaultKeyParam / 10)) && _keyParam > 0)
             {
-                _exeptionsList.Add(ParameterExeptions.OutOfrangeKeyParameter);
+                _exeptionsList.Add(ParameterExeptions.OutOfRangeKeyParameter);
             }
 
+            //Проверка внутреннего диаметра резьбы на выход из границ
+            if (((_diametrIn < defaultDiametrIn - (defaultDiametrIn / 10) ||
+                  _diametrIn > defaultDiametrIn + (defaultDiametrIn / 10)) && _diametrIn > 0))
+            {
+                _exeptionsList.Add(ParameterExeptions.OutOfRangeDiametrIn);
+            }
+
+            //Проверка внешнего диаметра резьбы на нулевое или отрицательное значение
             if (_diametrOut <= 0)
             {
-                _exeptionsList.Add(ParameterExeptions.NegativevalueDiametrOut);
+                _exeptionsList.Add(ParameterExeptions.NegativeValueDiametrOut);
             }
 
+            //Проверка высоты на нулевое или отрицательное значение
             if (_height <= 0)
             {
                 _exeptionsList.Add(ParameterExeptions.NegativeValueHeight);
             }
 
+            //Проверка параметра "под ключ" на нулевое или отрицательное значение
             if (_keyParam <= 0)
             {
                 _exeptionsList.Add(ParameterExeptions.NegativeValueKeyParameter);
             }
+
+            //Проверка внутреннего диаметра резьбы на нулевое или отрицательное значение
+            if (_diametrIn <= 0)
+            {
+                _exeptionsList.Add(ParameterExeptions.NegativeValueDiametrIn);
+            }
+
+            #endregion
         }
 
         #region Описание свойств
@@ -152,7 +175,7 @@ namespace NutApp
         /// <summary>
         /// Геттер высоты
         /// </summary>
-        public double Heigth
+        public double Height
         {
             get => _height;
         }

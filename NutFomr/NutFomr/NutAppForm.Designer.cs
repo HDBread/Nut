@@ -205,7 +205,7 @@
             this.DnomComboBox.FormattingEnabled = true;
             this.DnomComboBox.Items.AddRange(new object[] {
             "2",
-            "2.5",
+            "2,5",
             "3"});
             this.DnomComboBox.Location = new System.Drawing.Point(239, 56);
             this.DnomComboBox.Name = "DnomComboBox";

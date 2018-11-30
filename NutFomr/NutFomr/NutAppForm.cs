@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Kompas6API5;
@@ -29,8 +22,6 @@ namespace NutForm
 
         private void OKButton_Click(object sender, EventArgs e)
         {
-            StartKompasButton_Click(sender,e);
-
             NutParameters nutParameters = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text),
                     Convert.ToDouble(DnomComboBox.SelectedItem), Convert.ToDouble(HeightTextBox.Text),
                     Convert.ToDouble(KeyTextBox.Text), Convert.ToInt32(AngleComboBox.SelectedItem));
@@ -50,11 +41,6 @@ namespace NutForm
                 _nutBuilder = new NutBuilder(_kompas);
                 _nutBuilder.BuildDetail(nutParameters);
             }
-        }
-
-        private void GOSTComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
         }
 
         /// <summary>
@@ -118,19 +104,45 @@ namespace NutForm
             }
         }
 
+        /// <summary>
+        /// Событие на изменение значений параметров в TextBox при изменении значения Dnom 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DnomComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            switch (DnomComboBox.SelectedIndex)
+            {
+                case 0:
+                    DoutTextBox.Text = "4,2";
+                    DinTextBox.Text = (Convert.ToDouble(DnomComboBox.SelectedItem) * 0.85).ToString();
+                    KeyTextBox.Text = "4,0";
+                    HeightTextBox.Text = "1,6";
+                    break;
+                case 1:
+                    DoutTextBox.Text = "5,3";
+                    DinTextBox.Text = (Convert.ToDouble(DnomComboBox.SelectedItem) * 0.85).ToString();
+                    KeyTextBox.Text = "5,0";
+                    HeightTextBox.Text = "2,0";
+                    break;
+                case 2:
+                    DoutTextBox.Text = "5,9";
+                    DinTextBox.Text = (Convert.ToDouble(DnomComboBox.SelectedItem) * 0.85).ToString();
+                    KeyTextBox.Text = "5,5";
+                    HeightTextBox.Text = "2,4";
+                    break;
+            }
         }
 
+        /// <summary>
+        /// Метод установки стандартных значений параметров
+        /// </summary>
         private void SetNut()
         {
-            DnomComboBox.Text = "2";
             DoutTextBox.Text = "4,2";
             DinTextBox.Text = (Convert.ToDouble(DnomComboBox.SelectedItem) * 0.85).ToString();
             KeyTextBox.Text = "4,0";
             HeightTextBox.Text = "1,6";
-            AngleComboBox.Text = "15";
         }
     }
 }
