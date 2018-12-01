@@ -189,6 +189,7 @@
             // 
             // OKButton
             // 
+            this.OKButton.Enabled = false;
             this.OKButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.OKButton.Location = new System.Drawing.Point(193, 214);
             this.OKButton.Name = "OKButton";
@@ -245,7 +246,7 @@
             this.AngleComboBox.Location = new System.Drawing.Point(239, 187);
             this.AngleComboBox.Name = "AngleComboBox";
             this.AngleComboBox.Size = new System.Drawing.Size(63, 21);
-            this.AngleComboBox.TabIndex = 3;
+            this.AngleComboBox.TabIndex = 8;
             this.AngleComboBox.SelectedIndexChanged += new System.EventHandler(this.DnomComboBox_SelectedIndexChanged);
             // 
             // NutAppForm

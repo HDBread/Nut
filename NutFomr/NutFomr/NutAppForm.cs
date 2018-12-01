@@ -8,6 +8,9 @@ namespace NutForm
 {
     public partial class NutAppForm : Form
     {
+        /// <summary>
+        /// Конструктор MainForm
+        /// </summary>
         public NutAppForm()
         {
             InitializeComponent();
@@ -17,14 +20,19 @@ namespace NutForm
         #region Конструкторы
         private KompasObject _kompas;
         private KompasConnector _kompasConnector = new KompasConnector();
-        private NutBuilder _nutBuilder;
         #endregion
 
+        /// <summary>
+        /// Кнопка "Построить деталь"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OKButton_Click(object sender, EventArgs e)
         {
             NutParameters nutParameters = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text),
                     Convert.ToDouble(DnomComboBox.SelectedItem), Convert.ToDouble(HeightTextBox.Text),
                     Convert.ToDouble(KeyTextBox.Text), Convert.ToInt32(AngleComboBox.SelectedItem));
+            //Проверка валидности параметров
             if (nutParameters.ExeptionsList.Count != 0)
             {
                 string exeptionsMessage = "Неправильны были введены следующие параметры:\n";
@@ -32,14 +40,13 @@ namespace NutForm
                 {
                     exeptionsMessage = Reporter.CheckingExeptions(exeptionsList,exeptionsMessage);
                 }
-
                 MessageBox.Show(exeptionsMessage, "Печерень ошибок",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                _nutBuilder = new NutBuilder(_kompas);
-                _nutBuilder.BuildDetail(nutParameters);
+                NutBuilder nutBuilder = new NutBuilder(_kompas);
+                nutBuilder.BuildDetail(nutParameters);
             }
         }
 
@@ -70,8 +77,8 @@ namespace NutForm
         /// <param name="e"></param>
         private void StartKompasButton_Click(object sender, EventArgs e)
         {
-            _kompas = _kompasConnector.Connect();
-            _kompas.Visible = true;
+            _kompasConnector.Connect();
+            _kompas = _kompasConnector.Kompas;
             StartKompasButton.Enabled = false;
             CloseKompasButton.Enabled = true;
             OKButton.Enabled = true;
@@ -85,7 +92,7 @@ namespace NutForm
         private void CloseKompasButton_Click(object sender, EventArgs e)
         {
             _kompasConnector.Disconnect();
-            _kompas = null;
+            _kompas = _kompasConnector.Kompas;
             StartKompasButton.Enabled = true;
             CloseKompasButton.Enabled = false;
             OKButton.Enabled = false;
@@ -102,6 +109,7 @@ namespace NutForm
             {
                 _kompasConnector.Disconnect();
             }
+            
         }
 
         /// <summary>
@@ -139,10 +147,12 @@ namespace NutForm
         /// </summary>
         private void SetNut()
         {
+            DnomComboBox.SelectedItem = "2";
             DoutTextBox.Text = "4,2";
             DinTextBox.Text = (Convert.ToDouble(DnomComboBox.SelectedItem) * 0.85).ToString();
             KeyTextBox.Text = "4,0";
             HeightTextBox.Text = "1,6";
+            AngleComboBox.SelectedItem = "15";
         }
     }
 }

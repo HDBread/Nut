@@ -5,6 +5,7 @@ namespace NutApp
 
     public class NutParameters
     {
+
     #region Описание полей
         /// <summary>
         /// Поле диаметра описанной окружности шестигранника

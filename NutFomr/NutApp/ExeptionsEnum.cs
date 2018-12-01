@@ -1,5 +1,8 @@
 ﻿namespace NutApp
 {
+    /// <summary>
+    /// Список возможных ошибок
+    /// </summary>
     public enum ParameterExeptions
     {
         OutOfRangeDiametrOut = 1,

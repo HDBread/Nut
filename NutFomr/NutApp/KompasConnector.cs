@@ -22,12 +22,11 @@ namespace NutApp
         /// <summary>
         /// Метод подключения к компасу
         /// </summary>
-        public KompasObject Connect()
+        public void Connect()
         {
             var type = Type.GetTypeFromProgID("KOMPAS.Application.5");
             _kompas = (KompasObject)Activator.CreateInstance(type);
             _kompas.Visible = true;
-            return _kompas;
         }
 
         /// <summary>
@@ -36,6 +35,7 @@ namespace NutApp
         public void Disconnect()
         {
             _kompas.Quit();
+            _kompas = null;
         }
     }
 }

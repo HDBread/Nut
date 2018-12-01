@@ -306,16 +306,36 @@ namespace NutApp
             ksEntity entityCylinderic = Part.NewEntity(o3d_cylindricSpiral);
             //Получаем интерфейс параметров цилиндрической спирали
             ksCylindricSpiralDefinition cylindricSpiral = entityCylinderic.GetDefinition();
-
+            //Получаем базовую плоскость цилиндрической спирали по смещенной плоскости
             cylindricSpiral.SetPlane(entityDrawOffset);
 
             cylindricSpiral.buildDir = true;
+            //Задаем тип построения спирали (Шаг и высота)
             cylindricSpiral.buildMode = 1;
+            //Задаем высоту спирали
             cylindricSpiral.height = planeDefinition.offset + height + 1;
+            //Задаем диаметр спирали
             cylindricSpiral.diam = diametrNom;
+            //Задаем начальный угол спирали
             cylindricSpiral.firstAngle = 0;
+            //Задаем направление навивки спирали (по часовой)
             cylindricSpiral.turnDir = true;
-            cylindricSpiral.step = 0.4;
+            //Инициализируем шаг резбы спирали
+            cylindricSpiral.step = 0;
+            //Выбор шага резьбы относительно номинального диаметра резьбы
+            switch (diametrNom)
+            {
+                case 2:
+                    cylindricSpiral.step = 0.4;
+                    break;
+                case 2.5:
+                    cylindricSpiral.step = 0.45;
+                    break;
+                case 3:
+                    cylindricSpiral.step = 0.5;
+                    break;
+            }
+            //Создаем спираль
             entityCylinderic.Create();
 
             //Получаем интерфейс объекта "Эскиз"
@@ -355,22 +375,22 @@ namespace NutApp
             //Выходим из режима редактирования эскиза
             sketchDefinition.EndEdit();
 
-            //Получаем интерфейс операции
+            //Получаем интерфейс операции кинематического вырезания
             ksEntity entityCutEvolution= Part.NewEntity(o3d_cutEvolution);
-            //Получаем интерфейс параметров операции
+            //Получаем интерфейс параметров операции кинематического вырезания
             ksCutEvolutionDefinition cutEvolutionDefinition = entityCutEvolution.GetDefinition();
-            //Вычитане объектов
+            //Вычитане объектов 
             cutEvolutionDefinition.cut= true;
-            //Тип движения
+            //Тип движения (сохранение исходного угла направляющей)
             cutEvolutionDefinition.sketchShiftType= 1;
             //Устанавливаем эскиз сечения
             cutEvolutionDefinition.SetSketch(sketchDefinition);
             //Получаем массив объектов
             ksEntityCollection EntityCollection = (cutEvolutionDefinition.PathPartArray());
             EntityCollection.Clear();
-            //Добавляем в массив эскиз с траекторией
+            //Добавляем в массив эскиз с траекторией (спираль)
             EntityCollection.Add(entityCylinderic);
-            //Создаем операцию
+            //Создаем операцию кинематического вырезания
             entityCutEvolution.Create();
         }
     }
