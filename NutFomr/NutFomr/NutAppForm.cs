@@ -17,10 +17,9 @@ namespace NutForm
             SetNut();
         }
 
-        #region Конструкторы
         private KompasObject _kompas;
         private KompasConnector _kompasConnector = new KompasConnector();
-        #endregion
+
 
         /// <summary>
         /// Кнопка "Построить деталь"
@@ -29,35 +28,33 @@ namespace NutForm
         /// <param name="e"></param>
         private void OKButton_Click(object sender, EventArgs e)
         {
-            NutParameters nutParameters = new NutParameters(Convert.ToDouble(DoutTextBox.Text), Convert.ToDouble(DinTextBox.Text),
-                    Convert.ToDouble(DnomComboBox.SelectedItem), Convert.ToDouble(HeightTextBox.Text),
-                    Convert.ToDouble(KeyTextBox.Text), Convert.ToInt32(AngleComboBox.SelectedItem));
-            //Проверка валидности параметров
-            if (nutParameters.ExeptionsList.Count != 0)
+            try
             {
-                string exeptionsMessage = "Неправильны были введены следующие параметры:\n";
-                foreach (var exeptionsList in nutParameters.ExeptionsList)
-                {
-                    exeptionsMessage = Reporter.CheckingExeptions(exeptionsList,exeptionsMessage);
-                }
-                MessageBox.Show(exeptionsMessage, "Печерень ошибок",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
+                NutParameters nutParameters = new NutParameters(Convert.ToDouble(DoutTextBox.Text),
+                    Convert.ToDouble(DinTextBox.Text), Convert.ToDouble(DnomComboBox.SelectedItem), 
+                    Convert.ToDouble(HeightTextBox.Text), Convert.ToDouble(KeyTextBox.Text), 
+                    Convert.ToInt32(AngleComboBox.SelectedItem));
+
                 NutBuilder nutBuilder = new NutBuilder(_kompas);
                 nutBuilder.BuildDetail(nutParameters);
             }
-        }
+            catch (ParameterException exception)
+            {
+                string exсeptionsMessage = "Неправильно были введены следующие параметры:\n";
+                foreach (var exeptionsList in exception.ParameterExceptionses)
+                {
+                    exсeptionsMessage = Reporter.CheckingExсeptions(exeptionsList, exсeptionsMessage);
+                }
 
-        /// <summary>
-        /// Кнопка меню "О программе"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
+                MessageBox.Show(exсeptionsMessage, "Перечень ошибок",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            //TODO: Валидация парсинга
+            catch (FormatException)
+            {
+                MessageBox.Show("Введены некоректрные символы", "Перечень ошибок",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -65,7 +62,7 @@ namespace NutForm
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -113,33 +110,18 @@ namespace NutForm
         }
 
         /// <summary>
-        /// Событие на изменение значений параметров в TextBox при изменении значения Dnom 
+        /// Событие на изменение значений параметров при изменении значения номинального диаметра 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void DnomComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (DnomComboBox.SelectedIndex)
-            {
-                case 0:
-                    DoutTextBox.Text = "4,2";
-                    DinTextBox.Text = (Convert.ToDouble(DnomComboBox.SelectedItem) * 0.85).ToString();
-                    KeyTextBox.Text = "4,0";
-                    HeightTextBox.Text = "1,6";
-                    break;
-                case 1:
-                    DoutTextBox.Text = "5,3";
-                    DinTextBox.Text = (Convert.ToDouble(DnomComboBox.SelectedItem) * 0.85).ToString();
-                    KeyTextBox.Text = "5,0";
-                    HeightTextBox.Text = "2,0";
-                    break;
-                case 2:
-                    DoutTextBox.Text = "5,9";
-                    DinTextBox.Text = (Convert.ToDouble(DnomComboBox.SelectedItem) * 0.85).ToString();
-                    KeyTextBox.Text = "5,5";
-                    HeightTextBox.Text = "2,4";
-                    break;
-            }
+            NutParameters nutParameters = new NutParameters(Convert.ToDouble(DnomComboBox.SelectedItem.ToString()), Convert.ToInt32(AngleComboBox.SelectedItem.ToString()));
+            
+            DoutTextBox.Text = nutParameters.DiametrOut.ToString();
+            DinTextBox.Text = nutParameters.DiametrIn.ToString();
+            KeyTextBox.Text = nutParameters.KeyParam.ToString();
+            HeightTextBox.Text = nutParameters.Height.ToString();
         }
 
         /// <summary>
@@ -147,12 +129,26 @@ namespace NutForm
         /// </summary>
         private void SetNut()
         {
-            DnomComboBox.SelectedItem = "2";
-            DoutTextBox.Text = "4,2";
-            DinTextBox.Text = (Convert.ToDouble(DnomComboBox.SelectedItem) * 0.85).ToString();
-            KeyTextBox.Text = "4,0";
-            HeightTextBox.Text = "1,6";
-            AngleComboBox.SelectedItem = "15";
+            NutParameters nutParameters = new NutParameters();
+
+            AngleComboBox.SelectedItem = nutParameters.Angle.ToString();
+            DnomComboBox.SelectedItem = nutParameters.Dnom.ToString();
+
+            DoutTextBox.Text = nutParameters.DiametrOut.ToString();
+            DinTextBox.Text = nutParameters.DiametrIn.ToString();
+            KeyTextBox.Text = nutParameters.KeyParam.ToString();
+            HeightTextBox.Text = nutParameters.Height.ToString();
+            
+        }
+
+        /// <summary>
+        /// Событие кнопки меню "О программе"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
