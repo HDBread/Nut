@@ -34,11 +34,11 @@ namespace NutApp
             doc3D = _kompas.Document3D();
             doc3D.Create(false, true);
 
-            BuildModel(nutParameters.DiametrIn, nutParameters.DiametrOut);
+            BuildModel(nutParameters.DiameterIn, nutParameters.DiameterOut);
             BuildExtrusion(nutParameters.Height);
-            BuildChamfer(nutParameters.DiametrIn, nutParameters.Angle, nutParameters.KeyParam);
-            BuildIndentation(nutParameters.DiametrOut, nutParameters.Height);
-            BuildThread(nutParameters.Dnom, nutParameters.Height, nutParameters.DiametrIn);
+            BuildChamfer(nutParameters.DiameterIn, nutParameters.Angle, nutParameters.KeyParam);
+            BuildIndentation(nutParameters.DiameterOut, nutParameters.Height);
+            BuildThread(nutParameters.Dnom, nutParameters.Height, nutParameters.DiameterIn);
 
         }
 

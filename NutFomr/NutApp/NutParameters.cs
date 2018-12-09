@@ -66,12 +66,12 @@ namespace NutApp
         }
 
         /// <summary>
-        /// Конструктор без параметров для задания дефолтных значений
+        /// Конструктор без параметров для задания ГОСТ'овских значений
         /// </summary>
         public NutParameters() :this (4.2, 1.7, 2, 1.6, 4.0, 15) { }
 
         /// <summary>
-        /// Конструктор для изменения дефолтных значений при изменении номинального диаметра
+        /// Конструктор для изменения ГОСТ'овских значений при изменении номинального диаметра
         /// </summary>
         /// <param name="dNom">Номинальный диаметр резьбы</param>
         /// <param name="angle">Угол фаски головки</param>
@@ -114,12 +114,12 @@ namespace NutApp
         /// <summary>
         /// Геттер описанной окружности шестигранника
         /// </summary>
-        public double DiametrOut => _diameterOut;
+        public double DiameterOut => _diameterOut;
 
         /// <summary>
         /// Геттер внутреннего диаметра резьбы
         /// </summary>
-        public double DiametrIn => _diameterIn;
+        public double DiameterIn => _diameterIn;
 
         /// <summary>
         /// Геттер номинального диаметра резьбы
@@ -209,6 +209,7 @@ namespace NutApp
             {
                 _exceptionsList.Add(ParameterErrors.OutOfRangeDiameterIn);
             }
+
             #endregion
 
             #region Проверка на нулевое или отрицательное значение

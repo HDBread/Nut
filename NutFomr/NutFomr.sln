@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NutForm", "NutFomr\NutForm.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NutApp", "NutApp\NutApp.csproj", "{DE2BB692-330E-46BE-8FD5-755A61FFD166}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NutAppUnitTests", "NutAppUnitTests\NutAppUnitTests.csproj", "{2DEC7E4E-B136-4FB5-A9ED-C56E476E6E31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DE2BB692-330E-46BE-8FD5-755A61FFD166}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE2BB692-330E-46BE-8FD5-755A61FFD166}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE2BB692-330E-46BE-8FD5-755A61FFD166}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DEC7E4E-B136-4FB5-A9ED-C56E476E6E31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DEC7E4E-B136-4FB5-A9ED-C56E476E6E31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DEC7E4E-B136-4FB5-A9ED-C56E476E6E31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DEC7E4E-B136-4FB5-A9ED-C56E476E6E31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

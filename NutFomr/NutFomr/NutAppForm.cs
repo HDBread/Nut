@@ -87,11 +87,14 @@ namespace NutForm
         /// <param name="e"></param>
         private void StartKompasButton_Click(object sender, EventArgs e)
         {
-            _kompasConnector.Connect();
-            _kompas = _kompasConnector.Kompas;
-            StartKompasButton.Enabled = false;
-            CloseKompasButton.Enabled = true;
-            OKButton.Enabled = true;
+            if (_kompas == null)
+            {
+                _kompasConnector.Connect();
+                _kompas = _kompasConnector.Kompas;
+                StartKompasButton.Enabled = false;
+                CloseKompasButton.Enabled = true;
+                OKButton.Enabled = true;
+            }
         }
 
         /// <summary>
@@ -101,11 +104,14 @@ namespace NutForm
         /// <param name="e"></param>
         private void CloseKompasButton_Click(object sender, EventArgs e)
         {
-            _kompasConnector.Disconnect();
-            _kompas = _kompasConnector.Kompas;
-            StartKompasButton.Enabled = true;
-            CloseKompasButton.Enabled = false;
-            OKButton.Enabled = false;
+            if (_kompas != null)
+            {
+                _kompasConnector.Disconnect();
+                _kompas = _kompasConnector.Kompas;
+                StartKompasButton.Enabled = true;
+                CloseKompasButton.Enabled = false;
+                OKButton.Enabled = false;
+            }
         }
 
         /// <summary>
@@ -131,8 +137,8 @@ namespace NutForm
         {
             NutParameters nutParameters = new NutParameters(Convert.ToDouble(DnomComboBox.SelectedItem.ToString()), Convert.ToInt32(AngleComboBox.SelectedItem.ToString()));
             
-            DoutTextBox.Text = nutParameters.DiametrOut.ToString();
-            DinTextBox.Text = nutParameters.DiametrIn.ToString();
+            DoutTextBox.Text = nutParameters.DiameterOut.ToString();
+            DinTextBox.Text = nutParameters.DiameterIn.ToString();
             KeyTextBox.Text = nutParameters.KeyParam.ToString();
             HeightTextBox.Text = nutParameters.Height.ToString();
         }
@@ -147,8 +153,8 @@ namespace NutForm
             AngleComboBox.SelectedItem = nutParameters.Angle.ToString();
             DnomComboBox.SelectedItem = nutParameters.Dnom.ToString();
 
-            DoutTextBox.Text = nutParameters.DiametrOut.ToString();
-            DinTextBox.Text = nutParameters.DiametrIn.ToString();
+            DoutTextBox.Text = nutParameters.DiameterOut.ToString();
+            DinTextBox.Text = nutParameters.DiameterIn.ToString();
             KeyTextBox.Text = nutParameters.KeyParam.ToString();
             HeightTextBox.Text = nutParameters.Height.ToString();
         }
