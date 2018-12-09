@@ -1,14 +1,14 @@
 ﻿namespace NutApp
 {
     /// <summary>
-    /// Список возможных ошибок
+    /// Список числовых ошибок параметров
     /// </summary>
     public enum ParameterErrors
     {
         /// <summary>
         /// Выход за границы внешнего диаметра резьбы
         /// </summary>
-        OutOfRangeDiametrOut = 1,
+        OutOfRangeDiameterOut = 1,
         /// <summary>
         /// Выход за границы высоты
         /// </summary>
@@ -20,11 +20,11 @@
         /// <summary>
         /// Выход за границы внутреннего диаметра резьбы
         /// </summary>
-        OutOfRangeDiametrIn,
+        OutOfRangeDiameterIn,
         /// <summary>
         /// Нулевое или отрицательное значение внешнего диаметра резьбы
         /// </summary>
-        NegativeValueDiametrOut,
+        NegativeValueDiameterOut,
         /// <summary>
         /// Нулевое или отрицательное значение высоты
         /// </summary>
@@ -36,6 +36,10 @@
         /// <summary>
         /// Нулевое или отрицательное значение внутреннего диаметра резьбы
         /// </summary>
-        NegativeValueDiametrIn
+        NegativeValueDiameterIn,
+        /// <summary>
+        /// Ошибка парсинга внешнего диаметра резьбы
+        /// </summary>
+        ParsingDiameterOut,
     }
 }

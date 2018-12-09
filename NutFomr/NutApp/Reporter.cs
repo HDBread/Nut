@@ -4,7 +4,7 @@
     {
         public static string CheckingExсeptions(ParameterErrors exceptions, string exсeptionsMessage)
         {
-            if (exceptions == ParameterErrors.OutOfRangeDiametrOut)
+            if (exceptions == ParameterErrors.OutOfRangeDiameterOut)
             {
                 exсeptionsMessage += "Внешний диаметр резьбы - выход за границы;\n";
             }
@@ -19,12 +19,12 @@
                 exсeptionsMessage += "Параметр \"под ключ\" - выход за границы;\n";
             }
 
-            if (exceptions == ParameterErrors.OutOfRangeDiametrIn)
+            if (exceptions == ParameterErrors.OutOfRangeDiameterIn)
             {
                 exсeptionsMessage += "Внутренний диаметр резьбы - выход за границы;\n";
             }
 
-            if (exceptions == ParameterErrors.NegativeValueDiametrOut)
+            if (exceptions == ParameterErrors.NegativeValueDiameterOut)
             {
                 exсeptionsMessage += "Внешний диаметр резьбы - значение нуливое или отрицательное;\n";
             }
@@ -39,11 +39,40 @@
                 exсeptionsMessage += "Параметр \"под ключ\" - значение нуливое или отрицательное;\n";
             }
 
-            if (exceptions == ParameterErrors.NegativeValueDiametrIn)
+            if (exceptions == ParameterErrors.NegativeValueDiameterIn)
             {
                 exсeptionsMessage += "Внутренний диаметр резьбы - значение нуливое или отрицательное;\n";
             }
 
+            if (exceptions == ParameterErrors.ParsingDiameterOut)
+            {
+                exсeptionsMessage += "Внутренний диаметр резьбы - не верный формат;\n";
+            }
+
+            return exсeptionsMessage;
+        }
+
+        public static string CheckingExсeptions(ParameterParsingErrors exceptions, string exсeptionsMessage)
+        {
+            if (exceptions == ParameterParsingErrors.ParsingDiameterOut)
+            {
+                exсeptionsMessage += "Внешний диаметер резьбы - ошибка парсинга\n";
+            }
+
+            if (exceptions == ParameterParsingErrors.ParsingDiameterIn)
+            {
+                exсeptionsMessage += "Внутренний диаметер резьбы - ошибка парсинга\n";
+            }
+
+            if (exceptions == ParameterParsingErrors.ParsingHeight)
+            {
+                exсeptionsMessage += "Высота гайки - ошибка парсинга\n";
+            }
+
+            if (exceptions == ParameterParsingErrors.ParsingKeyParameter)
+            {
+                exсeptionsMessage += "Параметер \"под ключ\" - ошибка парсинга\n";
+            }
             return exсeptionsMessage;
         }
     }

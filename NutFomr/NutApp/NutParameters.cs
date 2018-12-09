@@ -95,7 +95,7 @@ namespace NutApp
             double defaultDiameterIn = _dNom * 0.85;
             SettingParameters(_dNom, ref defaultDiameterOut, ref defaultHeight, ref defaultKeyParam);
 
-            CheckParameters(defaultDiameterOut,defaultHeight,defaultKeyParam,defaultDiameterIn);
+           CheckParameters(defaultDiameterOut,defaultHeight,defaultKeyParam,defaultDiameterIn);
 
             if (_exceptionsList.Count != 0)
             {
@@ -144,68 +144,6 @@ namespace NutApp
         #endregion
 
         /// <summary>
-        /// Метод проверки параметров гайки
-        /// </summary>
-        /// <param name="defaultDiameterOut">ГОСТ значение внешнего диаметра резьбы</param>
-        /// <param name="defaultHeight">ГОСТ значение высоты</param>
-        /// <param name="defaultKeyParam">ГОСТ значение параметра "под ключ"</param>
-        /// <param name="defaultDiameterIn">ГОСТ значение внутреннего диаметра резьбы</param>
-        private void CheckParameters(double defaultDiameterOut, double defaultHeight, double defaultKeyParam, double defaultDiameterIn)
-        {
-            //Проверка внешнего диаметра резтьы на выход из границ
-            if ((_diameterOut < defaultDiameterOut - (defaultDiameterOut / 10) ||
-                 _diameterOut > defaultDiameterOut + (defaultDiameterOut / 10)) && _diameterOut > 0)
-            {
-                _exceptionsList.Add(ParameterErrors.OutOfRangeDiametrOut);
-            }
-
-            //Проверка высоты на выход из границ
-            if ((_height < defaultHeight - (defaultHeight / 10) || _height > defaultHeight + (defaultHeight / 10)) &&
-                _height > 0)
-            {
-                _exceptionsList.Add(ParameterErrors.OutOfRangeHeight);
-            }
-
-            //Проверка параметра "под ключ" на выход из границ
-            if ((_keyParam < defaultKeyParam - (defaultKeyParam / 10) ||
-                 _keyParam > defaultKeyParam + (defaultKeyParam / 10)) && _keyParam > 0)
-            {
-                _exceptionsList.Add(ParameterErrors.OutOfRangeKeyParameter);
-            }
-
-            //Проверка внутреннего диаметра резьбы на выход из границ
-            if (((_diameterIn < defaultDiameterIn - (defaultDiameterIn / 10) ||
-                  _diameterIn > defaultDiameterIn + (defaultDiameterIn / 10)) && _diameterIn > 0))
-            {
-                _exceptionsList.Add(ParameterErrors.OutOfRangeDiametrIn);
-            }
-
-            //Проверка внешнего диаметра резьбы на нулевое или отрицательное значение
-            if (_diameterOut <= 0)
-            {
-                _exceptionsList.Add(ParameterErrors.NegativeValueDiametrOut);
-            }
-
-            //Проверка высоты на нулевое или отрицательное значение
-            if (_height <= 0)
-            {
-                _exceptionsList.Add(ParameterErrors.NegativeValueHeight);
-            }
-
-            //Проверка параметра "под ключ" на нулевое или отрицательное значение
-            if (_keyParam <= 0)
-            {
-                _exceptionsList.Add(ParameterErrors.NegativeValueKeyParameter);
-            }
-
-            //Проверка внутреннего диаметра резьбы на нулевое или отрицательное значение
-            if (_diameterIn <= 0)
-            {
-                _exceptionsList.Add(ParameterErrors.NegativeValueDiametrIn);
-            }
-        }
-
-        /// <summary>
         /// Установка значений параметров при различном номинальном диаметре
         /// </summary>
         /// <param name="dOut">Внешний диаметр по ссылке</param>
@@ -233,5 +171,76 @@ namespace NutApp
                     break;
             }
         }
+
+        /// <summary>
+        /// Метод проверки параметров гайки
+        /// </summary>
+        /// <param name="defaultDiameterOut">ГОСТ значение внешнего диаметра резьбы</param>
+        /// <param name="defaultHeight">ГОСТ значение высоты</param>
+        /// <param name="defaultKeyParam">ГОСТ значение параметра "под ключ"</param>
+        /// <param name="defaultDiameterIn">ГОСТ значение внутреннего диаметра резьбы</param>
+        private void CheckParameters(double defaultDiameterOut, double defaultHeight, double defaultKeyParam, double defaultDiameterIn)
+        {
+            #region Проверка на выход за границы
+            //Проверка внешнего диаметра резтьы на выход из границ
+            if ((_diameterOut < defaultDiameterOut - (defaultDiameterOut / 10) ||
+                 _diameterOut > defaultDiameterOut + (defaultDiameterOut / 10)) && _diameterOut > 0)
+            {
+                _exceptionsList.Add(ParameterErrors.OutOfRangeDiameterOut);
+            }
+
+            //Проверка высоты на выход из границ
+            if ((_height < defaultHeight - (defaultHeight / 10) || _height > defaultHeight + (defaultHeight / 10)) &&
+                _height > 0)
+            {
+                _exceptionsList.Add(ParameterErrors.OutOfRangeHeight);
+            }
+
+            //Проверка параметра "под ключ" на выход из границ
+            if ((_keyParam < defaultKeyParam - (defaultKeyParam / 10) ||
+                 _keyParam > defaultKeyParam + (defaultKeyParam / 10)) && _keyParam > 0)
+            {
+                _exceptionsList.Add(ParameterErrors.OutOfRangeKeyParameter);
+            }
+
+            //Проверка внутреннего диаметра резьбы на выход из границ
+            if (((_diameterIn < defaultDiameterIn - (defaultDiameterIn / 10) ||
+                  _diameterIn > defaultDiameterIn + (defaultDiameterIn / 10)) && _diameterIn > 0))
+            {
+                _exceptionsList.Add(ParameterErrors.OutOfRangeDiameterIn);
+            }
+            #endregion
+
+            #region Проверка на нулевое или отрицательное значение
+
+            //Проверка внешнего диаметра резьбы на нулевое или отрицательное значение
+            if (_diameterOut <= 0)
+            {
+                _exceptionsList.Add(ParameterErrors.NegativeValueDiameterOut);
+            }
+
+            //Проверка высоты на нулевое или отрицательное значение
+            if (_height <= 0)
+            {
+                _exceptionsList.Add(ParameterErrors.NegativeValueHeight);
+            }
+
+            //Проверка параметра "под ключ" на нулевое или отрицательное значение
+            if (_keyParam <= 0)
+            {
+                _exceptionsList.Add(ParameterErrors.NegativeValueKeyParameter);
+            }
+
+            //Проверка внутреннего диаметра резьбы на нулевое или отрицательное значение
+            if (_diameterIn <= 0)
+            {
+                _exceptionsList.Add(ParameterErrors.NegativeValueDiameterIn);
+            }
+
+            #endregion
+
+        }
+
+
     }
 }

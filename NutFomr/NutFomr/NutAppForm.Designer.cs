@@ -91,7 +91,7 @@
             // 
             this.AboutToolStripMenuItem1.Name = "AboutToolStripMenuItem1";
             this.AboutToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.AboutToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.AboutToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
             this.AboutToolStripMenuItem1.Text = "О программе";
             this.AboutToolStripMenuItem1.Click += new System.EventHandler(this.AboutToolStripMenuItem1_Click);
             // 
@@ -189,7 +189,6 @@
             // 
             // OKButton
             // 
-            this.OKButton.Enabled = false;
             this.OKButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.OKButton.Location = new System.Drawing.Point(193, 214);
             this.OKButton.Name = "OKButton";

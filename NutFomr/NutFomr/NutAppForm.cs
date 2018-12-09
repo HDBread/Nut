@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 using Kompas6API5;
@@ -17,8 +18,10 @@ namespace NutForm
             SetNut();
         }
 
+        private List<ParameterParsingErrors> _exceptionParsingList = new List<ParameterParsingErrors>();
         private KompasObject _kompas;
         private KompasConnector _kompasConnector = new KompasConnector();
+        string exсeptionsMessage = String.Empty;
 
 
         /// <summary>
@@ -28,32 +31,42 @@ namespace NutForm
         /// <param name="e"></param>
         private void OKButton_Click(object sender, EventArgs e)
         {
+            double diameterOut = 0;
+            double diameterIn = 0;
+            double height = 0;
+            double keyParameter = 0;
             try
             {
-                NutParameters nutParameters = new NutParameters(Convert.ToDouble(DoutTextBox.Text),
-                    Convert.ToDouble(DinTextBox.Text), Convert.ToDouble(DnomComboBox.SelectedItem), 
-                    Convert.ToDouble(HeightTextBox.Text), Convert.ToDouble(KeyTextBox.Text), 
-                    Convert.ToInt32(AngleComboBox.SelectedItem));
+                CheckParsing(ref diameterOut, ref diameterIn, ref height, ref keyParameter);
+
+                NutParameters nutParameters = new NutParameters(diameterOut, diameterIn, Convert.ToDouble(DnomComboBox.SelectedItem), 
+                    height, keyParameter, Convert.ToInt32(AngleComboBox.SelectedItem));
 
                 NutBuilder nutBuilder = new NutBuilder(_kompas);
                 nutBuilder.BuildDetail(nutParameters);
             }
             catch (ParameterException exception)
             {
-                string exсeptionsMessage = "Неправильно были введены следующие параметры:\n";
-                foreach (var exeptionsList in exception.ParameterExceptionses)
+                foreach (var exceptionsList in exception.ParameterExceptionses)
                 {
-                    exсeptionsMessage = Reporter.CheckingExсeptions(exeptionsList, exсeptionsMessage);
+                    exсeptionsMessage = Reporter.CheckingExсeptions(exceptionsList, exсeptionsMessage);
                 }
-
-                MessageBox.Show(exсeptionsMessage, "Перечень ошибок",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            //TODO: Валидация парсинга
-            catch (FormatException)
+            catch (ParsingException exception)
             {
-                MessageBox.Show("Введены некоректрные символы", "Перечень ошибок",
+                foreach (var exceptionsParsingList in exception.ParsingExceptiones)
+                {
+                    exсeptionsMessage = Reporter.CheckingExсeptions(exceptionsParsingList, exсeptionsMessage);
+                }
+            }
+
+            if (exсeptionsMessage != string.Empty)
+            {
+                string resultMessage = "Неправильно были введены следующие параметры:\n" + exсeptionsMessage;
+                MessageBox.Show(resultMessage, "Перечень ошибок",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                exсeptionsMessage = string.Empty;
+                _exceptionParsingList.RemoveRange(0,_exceptionParsingList.Count);
             }
         }
 
@@ -138,7 +151,6 @@ namespace NutForm
             DinTextBox.Text = nutParameters.DiametrIn.ToString();
             KeyTextBox.Text = nutParameters.KeyParam.ToString();
             HeightTextBox.Text = nutParameters.Height.ToString();
-            
         }
 
         /// <summary>
@@ -149,6 +161,45 @@ namespace NutForm
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Проврка парсинка параметров
+        /// </summary>
+        /// <param name="diameterOut">Внешний диаметр резьбы по ссылке</param>
+        /// <param name="diameterIn">Внутренний диаметр резьбы по ссылке</param>
+        /// <param name="height">Выстога по ссылке</param>
+        /// <param name="keyParameter">Параметр "под ключ" по ссылке</param>
+        private void CheckParsing(ref double diameterOut, ref double diameterIn, ref double height, ref double keyParameter)
+        {
+            #region Парсинг параметров
+
+            if (!double.TryParse(DoutTextBox.Text, out diameterOut))
+            {
+                _exceptionParsingList.Add(ParameterParsingErrors.ParsingDiameterOut);
+            }
+
+            if (!double.TryParse(DinTextBox.Text, out diameterIn))
+            {
+                _exceptionParsingList.Add(ParameterParsingErrors.ParsingDiameterIn);
+            }
+
+            if (!double.TryParse(HeightTextBox.Text, out height))
+            {
+                _exceptionParsingList.Add(ParameterParsingErrors.ParsingHeight);
+            }
+
+            if (!double.TryParse(KeyTextBox.Text, out keyParameter))
+            {
+                _exceptionParsingList.Add(ParameterParsingErrors.ParsingKeyParameter);
+            }
+
+            if (_exceptionParsingList.Count != 0)
+            {
+                throw new ParsingException("Введен неправильный формат параметров", _exceptionParsingList);
+            }
+
+            #endregion
         }
     }
 }
