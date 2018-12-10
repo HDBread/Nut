@@ -7,6 +7,7 @@ using NutApp;
 
 namespace NutForm
 {
+    //TODO: error provider
     public partial class NutAppForm : Form
     {
         /// <summary>

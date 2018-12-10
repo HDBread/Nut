@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NutAppForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,7 +50,9 @@
             this.StartKompasButton = new System.Windows.Forms.Button();
             this.CloseKompasButton = new System.Windows.Forms.Button();
             this.AngleComboBox = new System.Windows.Forms.ComboBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.menuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -261,6 +264,10 @@
             this.AngleComboBox.Size = new System.Drawing.Size(63, 21);
             this.AngleComboBox.TabIndex = 8;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // NutAppForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -290,6 +297,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NutAppForm_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -317,6 +325,7 @@
         private System.Windows.Forms.Button StartKompasButton;
         private System.Windows.Forms.Button CloseKompasButton;
         private System.Windows.Forms.ComboBox AngleComboBox;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
 

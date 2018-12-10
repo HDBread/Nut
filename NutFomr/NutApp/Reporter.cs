@@ -44,11 +44,6 @@
                 exсeptionsMessage += "Внутренний диаметр резьбы - значение нуливое или отрицательное;\n";
             }
 
-            if (exceptions == ParameterErrors.ParsingDiameterOut)
-            {
-                exсeptionsMessage += "Внутренний диаметр резьбы - не верный формат;\n";
-            }
-
             return exсeptionsMessage;
         }
 

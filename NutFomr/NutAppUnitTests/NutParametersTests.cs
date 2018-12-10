@@ -23,7 +23,6 @@ namespace NutAppUnitTests
         [SetUp]
         public void InitNutParameters()
         {
-            //_nutParameters = new NutParameters();
              _diameterOut = 4.2;
              _diameterIn = 1.7;
              _height = 1.6;
@@ -143,9 +142,6 @@ namespace NutAppUnitTests
             {
                 _nutParameters = new NutParameters(wrongDiameterOut, _diameterIn, _dNom, _height, _keyParameter,_angle);
             }, message);
-
-            //ParameterException exception = null;
-            //Assert.AreEqual(ParameterErrors.OutOfRangeDiameterOut,exception.ParameterExceptionses,"");
         }
 
         /// <summary>
@@ -264,10 +260,10 @@ namespace NutAppUnitTests
         }
         #endregion
 
-        #region MyRegion
+        #region Тестирование методов
 
         /// <summary>
-        /// 
+        /// Позитивные тесты установки ГОСТ'овских значений при определенном номинальном диаметре резьбы
         /// </summary>
         /// <param name="transmittedDnom">Передаваемое значение номинального диаметра резьбы в метод SettingParameters</param>
         /// <param name="message"></param>
@@ -280,6 +276,44 @@ namespace NutAppUnitTests
             Assert.AreEqual(_diameterOut,_nutParameters.DiameterOut,"Ошибка метода SettingParameters, задается неправильное значение внешнего диаметра резьбы");
             Assert.AreEqual(_height,_nutParameters.Height, "Ошибка метода SettingParameters, задается неправильное значение высоты гайки");
             Assert.AreEqual(_keyParameter,_nutParameters.KeyParam, "Ошибка метода SettingParameters, задается неправильное значение параметра \"под ключ\"");
+        }
+
+        //TODO: Подавать в TestCase несколько параметров?
+        [TestCase(3,"Выполняется, если метод CheckParameters передает правильные типы ошибок",
+            TestName = "Проверка метода CheckParmeter")]
+        public void TestCheckParameters_CorrectExcceptions(int expectedCount, string message)
+        {
+            double wrongDiameterOut = 50;
+            double wrongKeyParameter = 0;
+            double wrongHeight = -5;
+            try
+            {
+                _nutParameters = new NutParameters(wrongDiameterOut, _diameterIn, _dNom, wrongHeight, wrongKeyParameter,
+                    _angle);
+            }
+            catch (ParameterException exception)
+            {
+                Assert.AreEqual(expectedCount, exception.ParameterExceptionses.Count,
+                    "Задается неправильное кол-во ошибок");
+
+                //Проверки на нахождение ошибок в списке
+                Assert.IsTrue(exception.ParameterExceptionses.Contains(ParameterErrors.OutOfRangeDiameterOut),
+                    "Список не содержит ошибку типа \"OutOfRangeDiameterOut\"");
+                Assert.IsTrue(exception.ParameterExceptionses.Contains(ParameterErrors.NegativeValueKeyParameter),
+                    "Список не содержит ошибку тепа \"NegativevalueKeyParameter");
+                Assert.IsTrue(exception.ParameterExceptionses.Contains(ParameterErrors.NegativeValueHeight),
+                    "Список не содержит ошибку типа \"NegativeValueHeight\"");
+
+                //Проверки на отсутствие ошибок в списке
+                Assert.IsFalse(exception.ParameterExceptionses.Contains(ParameterErrors.OutOfRangeDiameterIn),
+                    "Тип ошибки \"OutOfRangeDiameterIn\" присудствует в списке, но не должен был");
+                Assert.IsFalse(exception.ParameterExceptionses.Contains(ParameterErrors.OutOfRangeKeyParameter),
+                    "Тип ошибки \"OutOfRangeKeyParameter\" присудствует в списке, но не должен был");
+                Assert.IsFalse(exception.ParameterExceptionses.Contains(ParameterErrors.NegativeValueDiameterOut),
+                    "Тип ошибки \"NegativeValueDiameterOut\" присудствует в списке, но не должен был");
+                Assert.IsFalse(exception.ParameterExceptionses.Contains(ParameterErrors.ParsingDiameterOut),
+                    "Тип ошибки \"ParsingDiameterOut\" присудствует в списке, но не должен был");
+            }
         }
 
         #endregion

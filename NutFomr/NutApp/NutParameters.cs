@@ -103,7 +103,7 @@ namespace NutApp
             }
         }
 
-        public void InitDefaults(double dNom)
+        private void InitDefaults(double dNom)
         {
             _dNom = dNom;
             _diameterIn = _dNom * 0.85;
@@ -143,13 +143,14 @@ namespace NutApp
 
         #endregion
 
+        //TODO: поправить xml-комменты
         /// <summary>
         /// Установка значений параметров при различном номинальном диаметре
         /// </summary>
-        /// <param name="dOut">Внешний диаметр по ссылке</param>
-        /// <param name="height">Высота по ссылке</param>
-        /// <param name="keyParam">параметр "под ключ" по ссылке</param>
-        /// <param name="dNom">Номинальный диаметр по значению</param>
+        /// <param name="dNom"></param>
+        /// <param name="diameterOut"></param>
+        /// <param name="height"></param>
+        /// <param name="keyParam"></param>
         private void SettingParameters(double dNom, ref double diameterOut, ref double height, ref double keyParam)
         {
             switch (dNom)
