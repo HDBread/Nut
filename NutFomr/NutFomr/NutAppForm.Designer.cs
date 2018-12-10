@@ -50,9 +50,9 @@
             this.StartKompasButton = new System.Windows.Forms.Button();
             this.CloseKompasButton = new System.Windows.Forms.Button();
             this.AngleComboBox = new System.Windows.Forms.ComboBox();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.menuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -62,7 +62,7 @@
             this.aboutToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(314, 24);
+            this.menuStrip.Size = new System.Drawing.Size(341, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -103,10 +103,11 @@
             this.DoutTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DoutTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DoutTextBox.Location = new System.Drawing.Point(239, 161);
+            this.DoutTextBox.Location = new System.Drawing.Point(254, 161);
             this.DoutTextBox.Name = "DoutTextBox";
             this.DoutTextBox.Size = new System.Drawing.Size(63, 20);
             this.DoutTextBox.TabIndex = 7;
+            this.DoutTextBox.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
             // 
             // TurnkeySize
             // 
@@ -123,10 +124,11 @@
             this.DinTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DinTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DinTextBox.Location = new System.Drawing.Point(239, 135);
+            this.DinTextBox.Location = new System.Drawing.Point(254, 135);
             this.DinTextBox.Name = "DinTextBox";
             this.DinTextBox.Size = new System.Drawing.Size(63, 20);
             this.DinTextBox.TabIndex = 6;
+            this.DinTextBox.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
             // 
             // label1
             // 
@@ -143,10 +145,11 @@
             this.HeightTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.HeightTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.HeightTextBox.Location = new System.Drawing.Point(239, 109);
+            this.HeightTextBox.Location = new System.Drawing.Point(254, 109);
             this.HeightTextBox.Name = "HeightTextBox";
             this.HeightTextBox.Size = new System.Drawing.Size(63, 20);
             this.HeightTextBox.TabIndex = 5;
+            this.HeightTextBox.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
             // 
             // HeightLabel
             // 
@@ -163,10 +166,11 @@
             this.KeyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.KeyTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.KeyTextBox.Location = new System.Drawing.Point(239, 83);
+            this.KeyTextBox.Location = new System.Drawing.Point(254, 83);
             this.KeyTextBox.Name = "KeyTextBox";
             this.KeyTextBox.Size = new System.Drawing.Size(63, 20);
             this.KeyTextBox.TabIndex = 4;
+            this.KeyTextBox.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
             // 
             // DiameterInLabel
             // 
@@ -203,7 +207,7 @@
             this.OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OKButton.AutoSize = true;
             this.OKButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.OKButton.Location = new System.Drawing.Point(193, 214);
+            this.OKButton.Location = new System.Drawing.Point(220, 214);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(109, 23);
             this.OKButton.TabIndex = 9;
@@ -222,7 +226,7 @@
             "2",
             "2,5",
             "3"});
-            this.DnomComboBox.Location = new System.Drawing.Point(239, 56);
+            this.DnomComboBox.Location = new System.Drawing.Point(254, 56);
             this.DnomComboBox.Name = "DnomComboBox";
             this.DnomComboBox.Size = new System.Drawing.Size(63, 21);
             this.DnomComboBox.TabIndex = 3;
@@ -259,20 +263,20 @@
             this.AngleComboBox.Items.AddRange(new object[] {
             "15",
             "30"});
-            this.AngleComboBox.Location = new System.Drawing.Point(239, 187);
+            this.AngleComboBox.Location = new System.Drawing.Point(254, 187);
             this.AngleComboBox.Name = "AngleComboBox";
             this.AngleComboBox.Size = new System.Drawing.Size(63, 21);
             this.AngleComboBox.TabIndex = 8;
             // 
-            // errorProvider1
+            // errorProvider
             // 
-            this.errorProvider1.ContainerControl = this;
+            this.errorProvider.ContainerControl = this;
             // 
             // NutAppForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(314, 249);
+            this.ClientSize = new System.Drawing.Size(341, 249);
             this.Controls.Add(this.CloseKompasButton);
             this.Controls.Add(this.StartKompasButton);
             this.Controls.Add(this.AngleComboBox);
@@ -297,7 +301,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NutAppForm_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -325,7 +329,7 @@
         private System.Windows.Forms.Button StartKompasButton;
         private System.Windows.Forms.Button CloseKompasButton;
         private System.Windows.Forms.ComboBox AngleComboBox;
-        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }
 

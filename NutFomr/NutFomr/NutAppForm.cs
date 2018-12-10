@@ -7,7 +7,6 @@ using NutApp;
 
 namespace NutForm
 {
-    //TODO: error provider
     public partial class NutAppForm : Form
     {
         /// <summary>
@@ -19,10 +18,8 @@ namespace NutForm
             SetNut();
         }
 
-        private List<ParameterParsingErrors> _exceptionParsingList = new List<ParameterParsingErrors>();
         private KompasObject _kompas;
         private KompasConnector _kompasConnector = new KompasConnector();
-        string exсeptionsMessage = String.Empty;
 
 
         /// <summary>
@@ -32,42 +29,32 @@ namespace NutForm
         /// <param name="e"></param>
         private void OKButton_Click(object sender, EventArgs e)
         {
-            double diameterOut = 0;
-            double diameterIn = 0;
-            double height = 0;
-            double keyParameter = 0;
             try
             {
-                CheckParsing(ref diameterOut, ref diameterIn, ref height, ref keyParameter);
-
-                NutParameters nutParameters = new NutParameters(diameterOut, diameterIn, Convert.ToDouble(DnomComboBox.SelectedItem), 
-                    height, keyParameter, Convert.ToInt32(AngleComboBox.SelectedItem));
+                NutParameters nutParameters = new NutParameters(Convert.ToDouble(DoutTextBox.Text),
+                    Convert.ToDouble(DinTextBox.Text), Convert.ToDouble(DnomComboBox.SelectedItem),
+                    Convert.ToDouble(HeightTextBox.Text), Convert.ToDouble(KeyTextBox.Text),
+                    Convert.ToInt32(AngleComboBox.SelectedItem));
 
                 NutBuilder nutBuilder = new NutBuilder(_kompas);
                 nutBuilder.BuildDetail(nutParameters);
             }
             catch (ParameterException exception)
             {
+                string exсeptionsMessage = "Неправильно были введены следующие параметры:\n";
+
                 foreach (var exceptionsList in exception.ParameterExceptionses)
                 {
                     exсeptionsMessage = Reporter.CheckingExсeptions(exceptionsList, exсeptionsMessage);
                 }
-            }
-            catch (ParsingException exception)
-            {
-                foreach (var exceptionsParsingList in exception.ParsingExceptiones)
-                {
-                    exсeptionsMessage = Reporter.CheckingExсeptions(exceptionsParsingList, exсeptionsMessage);
-                }
-            }
 
-            if (exсeptionsMessage != string.Empty)
-            {
-                string resultMessage = "Неправильно были введены следующие параметры:\n" + exсeptionsMessage;
-                MessageBox.Show(resultMessage, "Перечень ошибок",
+                MessageBox.Show(exсeptionsMessage, "Перечень ошибок",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-                exсeptionsMessage = string.Empty;
-                _exceptionParsingList.RemoveRange(0,_exceptionParsingList.Count);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Не все параметры имели верный формат ввода", "Ошибка формата данных",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -177,36 +164,49 @@ namespace NutForm
         /// <param name="diameterIn">Внутренний диаметр резьбы по ссылке</param>
         /// <param name="height">Выстога по ссылке</param>
         /// <param name="keyParameter">Параметр "под ключ" по ссылке</param>
-        private void CheckParsing(ref double diameterOut, ref double diameterIn, ref double height, ref double keyParameter)
+        private void CheckParsing(ref double diameterOut, ref double diameterIn, ref double height,
+            ref double keyParameter)
         {
-            #region Парсинг параметров
+            //Проверка парсинга внешнего диаметра резьбы
+            string errorParsingMessage = (!double.TryParse(DoutTextBox.Text, out diameterOut))
+                ? "Ошибка парсинга внешнего диаметра резьбы"
+                : string.Empty;
+            errorProvider.SetError(DoutTextBox, errorParsingMessage);
 
-            if (!double.TryParse(DoutTextBox.Text, out diameterOut))
-            {
-                _exceptionParsingList.Add(ParameterParsingErrors.ParsingDiameterOut);
-            }
+            //Проверка парсинга внутреннего параметра резьбы
+            errorParsingMessage = (!double.TryParse(DinTextBox.Text, out diameterIn))
+                ? "Ошибка парсинга внутреннего диаметра резьбы"
+                : string.Empty;
+            errorProvider.SetError(DinTextBox, errorParsingMessage);
 
-            if (!double.TryParse(DinTextBox.Text, out diameterIn))
-            {
-                _exceptionParsingList.Add(ParameterParsingErrors.ParsingDiameterIn);
-            }
+            //Проверка парсинга высоты гайки
+            errorParsingMessage = (!double.TryParse(HeightTextBox.Text, out height))
+                ? "Ошибка парсинга высоты гайки"
+                : string.Empty;
+            errorProvider.SetError(HeightTextBox, errorParsingMessage);
 
-            if (!double.TryParse(HeightTextBox.Text, out height))
-            {
-                _exceptionParsingList.Add(ParameterParsingErrors.ParsingHeight);
-            }
-
-            if (!double.TryParse(KeyTextBox.Text, out keyParameter))
-            {
-                _exceptionParsingList.Add(ParameterParsingErrors.ParsingKeyParameter);
-            }
-
-            if (_exceptionParsingList.Count != 0)
-            {
-                throw new ParsingException("Введен неправильный формат параметров", _exceptionParsingList);
-            }
-
-            #endregion
+            //Проверка парсинга параметра "под ключ"
+            errorParsingMessage = (!double.TryParse(KeyTextBox.Text, out keyParameter))
+                ? "Ошибка парсинга параметра \"под ключ\""
+                : string.Empty;
+            errorProvider.SetError(KeyTextBox, errorParsingMessage);
         }
+
+        /// <summary>
+        /// Событие проверки изменения текста в текстовых полях
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBox_TextChanged(object sender, EventArgs e)
+        {
+            double diameterOut = 0;
+            double diameterIn = 0;
+            double height = 0;
+            double keyParameter = 0;
+
+           CheckParsing(ref diameterOut, ref diameterIn, ref height, ref keyParameter);
+        }
+
+
     }
 }

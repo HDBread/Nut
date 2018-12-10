@@ -47,28 +47,5 @@
             return exсeptionsMessage;
         }
 
-        public static string CheckingExсeptions(ParameterParsingErrors exceptions, string exсeptionsMessage)
-        {
-            if (exceptions == ParameterParsingErrors.ParsingDiameterOut)
-            {
-                exсeptionsMessage += "Внешний диаметер резьбы - ошибка парсинга\n";
-            }
-
-            if (exceptions == ParameterParsingErrors.ParsingDiameterIn)
-            {
-                exсeptionsMessage += "Внутренний диаметер резьбы - ошибка парсинга\n";
-            }
-
-            if (exceptions == ParameterParsingErrors.ParsingHeight)
-            {
-                exсeptionsMessage += "Высота гайки - ошибка парсинга\n";
-            }
-
-            if (exceptions == ParameterParsingErrors.ParsingKeyParameter)
-            {
-                exсeptionsMessage += "Параметер \"под ключ\" - ошибка парсинга\n";
-            }
-            return exсeptionsMessage;
-        }
     }
 }

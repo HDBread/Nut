@@ -143,14 +143,13 @@ namespace NutApp
 
         #endregion
 
-        //TODO: поправить xml-комменты
         /// <summary>
         /// Установка значений параметров при различном номинальном диаметре
         /// </summary>
-        /// <param name="dNom"></param>
-        /// <param name="diameterOut"></param>
-        /// <param name="height"></param>
-        /// <param name="keyParam"></param>
+        /// <param name="dNom">Номинальный диаметер резьбы</param>
+        /// <param name="diameterOut">Внешний диаметер резьбы, по ссылке</param>
+        /// <param name="height">Высота гайки, по ссылке</param>
+        /// <param name="keyParam">параметер "под ключ", по ссылке</param>
         private void SettingParameters(double dNom, ref double diameterOut, ref double height, ref double keyParam)
         {
             switch (dNom)
