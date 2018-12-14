@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 using Kompas6API5;
@@ -168,28 +169,52 @@ namespace NutForm
             ref double keyParameter)
         {
             //Проверка парсинга внешнего диаметра резьбы
-            string errorParsingMessage = (!double.TryParse(DoutTextBox.Text, out diameterOut))
-                ? "Ошибка парсинга внешнего диаметра резьбы"
-                : string.Empty;
-            errorProvider.SetError(DoutTextBox, errorParsingMessage);
+            if ((!double.TryParse(DoutTextBox.Text, out diameterOut)))
+            {
+                errorProvider.SetError(DoutTextBox, "Ошибка парсинга внешнего диаметра резьбы");
+                DoutTextBox.BackColor = Color.LightSalmon;
+            }
+            else
+            {
+                errorProvider.SetError(DoutTextBox, string.Empty);
+                DoutTextBox.BackColor = Color.White;
+            }
 
             //Проверка парсинга внутреннего параметра резьбы
-            errorParsingMessage = (!double.TryParse(DinTextBox.Text, out diameterIn))
-                ? "Ошибка парсинга внутреннего диаметра резьбы"
-                : string.Empty;
-            errorProvider.SetError(DinTextBox, errorParsingMessage);
+            if ((!double.TryParse(DinTextBox.Text, out diameterIn)))
+            {
+                errorProvider.SetError(DinTextBox, "Ошибка парсинга внутреннего диаметра резьбы");
+                DinTextBox.BackColor = Color.LightSalmon;
+            }
+            else
+            {
+                errorProvider.SetError(DinTextBox, string.Empty);
+                DinTextBox.BackColor = Color.White;
+            }
 
             //Проверка парсинга высоты гайки
-            errorParsingMessage = (!double.TryParse(HeightTextBox.Text, out height))
-                ? "Ошибка парсинга высоты гайки"
-                : string.Empty;
-            errorProvider.SetError(HeightTextBox, errorParsingMessage);
+            if ((!double.TryParse(HeightTextBox.Text, out height)))
+            {
+                errorProvider.SetError(HeightTextBox, "Ошибка парсинга высоты гайки");
+                HeightTextBox.BackColor = Color.LightSalmon;
+            }
+            else
+            {
+                errorProvider.SetError(HeightTextBox, string.Empty);
+                HeightTextBox.BackColor = Color.White;
+            }
 
             //Проверка парсинга параметра "под ключ"
-            errorParsingMessage = (!double.TryParse(KeyTextBox.Text, out keyParameter))
-                ? "Ошибка парсинга параметра \"под ключ\""
-                : string.Empty;
-            errorProvider.SetError(KeyTextBox, errorParsingMessage);
+            if ((!double.TryParse(KeyTextBox.Text, out keyParameter)))
+            {
+                errorProvider.SetError(KeyTextBox, "Ошибка парсинга параметра \"под ключ\"");
+                KeyTextBox.BackColor = Color.LightSalmon;
+            }
+            else
+            {
+                errorProvider.SetError(KeyTextBox, string.Empty);
+                KeyTextBox.BackColor = Color.White;
+            }   
         }
 
         /// <summary>
