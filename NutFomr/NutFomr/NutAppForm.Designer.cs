@@ -51,6 +51,9 @@
             this.CloseKompasButton = new System.Windows.Forms.Button();
             this.AngleComboBox = new System.Windows.Forms.ComboBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.MarkerQuestionLabel = new System.Windows.Forms.Label();
+            this.MarkerCheckBox = new System.Windows.Forms.CheckBox();
+            this.MarkerTextBox = new System.Windows.Forms.TextBox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -211,7 +214,7 @@
             this.OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OKButton.AutoSize = true;
             this.OKButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.OKButton.Location = new System.Drawing.Point(220, 214);
+            this.OKButton.Location = new System.Drawing.Point(220, 240);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(109, 23);
             this.OKButton.TabIndex = 9;
@@ -277,11 +280,41 @@
             this.errorProvider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider.ContainerControl = this;
             // 
+            // MarkerQuestionLabel
+            // 
+            this.MarkerQuestionLabel.AutoSize = true;
+            this.MarkerQuestionLabel.Location = new System.Drawing.Point(12, 217);
+            this.MarkerQuestionLabel.Name = "MarkerQuestionLabel";
+            this.MarkerQuestionLabel.Size = new System.Drawing.Size(113, 13);
+            this.MarkerQuestionLabel.TabIndex = 10;
+            this.MarkerQuestionLabel.Text = "Сделать маркировку";
+            // 
+            // MarkerCheckBox
+            // 
+            this.MarkerCheckBox.AutoSize = true;
+            this.MarkerCheckBox.Location = new System.Drawing.Point(131, 217);
+            this.MarkerCheckBox.Name = "MarkerCheckBox";
+            this.MarkerCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.MarkerCheckBox.TabIndex = 11;
+            this.MarkerCheckBox.UseVisualStyleBackColor = true;
+            this.MarkerCheckBox.CheckedChanged += new System.EventHandler(this.MarkerCheckBox_CheckedChanged);
+            // 
+            // MarkerTextBox
+            // 
+            this.MarkerTextBox.Enabled = false;
+            this.MarkerTextBox.Location = new System.Drawing.Point(220, 214);
+            this.MarkerTextBox.Name = "MarkerTextBox";
+            this.MarkerTextBox.Size = new System.Drawing.Size(109, 20);
+            this.MarkerTextBox.TabIndex = 12;
+            // 
             // NutAppForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 249);
+            this.ClientSize = new System.Drawing.Size(341, 275);
+            this.Controls.Add(this.MarkerTextBox);
+            this.Controls.Add(this.MarkerCheckBox);
+            this.Controls.Add(this.MarkerQuestionLabel);
             this.Controls.Add(this.CloseKompasButton);
             this.Controls.Add(this.StartKompasButton);
             this.Controls.Add(this.AngleComboBox);
@@ -336,6 +369,9 @@
         private System.Windows.Forms.Button CloseKompasButton;
         private System.Windows.Forms.ComboBox AngleComboBox;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.TextBox MarkerTextBox;
+        private System.Windows.Forms.CheckBox MarkerCheckBox;
+        private System.Windows.Forms.Label MarkerQuestionLabel;
     }
 }
 

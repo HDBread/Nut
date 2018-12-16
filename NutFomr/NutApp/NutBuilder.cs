@@ -1,4 +1,5 @@
-﻿using Kompas6API5;
+﻿using System;
+using Kompas6API5;
 
 namespace NutApp
 {
@@ -8,6 +9,8 @@ namespace NutApp
         /// Экземпляр компаса
         /// </summary>
         private KompasObject _kompas;
+
+        private string _markerText;
 
         private ksPart _part;
         private ksEntity _entityDraw;
@@ -19,9 +22,10 @@ namespace NutApp
         /// Конструктор класса NutBuilder
         /// </summary>
         /// <param name="kompasObj">Экземпляр КОМПАС'а передаваемый в построитель</param>
-        public NutBuilder(KompasObject kompasObj)
+        public NutBuilder(KompasObject kompasObj, string markerText)
         {
             this._kompas = kompasObj;
+            this._markerText = markerText;
         }
 
         /// <summary>
@@ -30,15 +34,21 @@ namespace NutApp
         /// <param name="nutParameters"></param>
         public void BuildDetail(NutParameters nutParameters)
         {
-            
             _doc3D = _kompas.Document3D();
             _doc3D.Create(false, true);
+
+            MarkerTextValidation(_markerText, nutParameters.DiameterOut);
 
             BuildModel(nutParameters.DiameterIn, nutParameters.DiameterOut);
             BuildExtrusion(nutParameters.Height);
             BuildChamfer(nutParameters.DiameterIn, nutParameters.Angle, nutParameters.KeyParam);
             BuildIndentation(nutParameters.DiameterOut, nutParameters.Height);
             BuildThread(nutParameters.Dnom, nutParameters.Height, nutParameters.DiameterIn);
+            if (_markerText != String.Empty)
+            {
+                BuildText(_markerText, nutParameters.Height, nutParameters.DiameterOut);
+            }
+
 
         }
 
@@ -392,6 +402,125 @@ namespace NutApp
             EntityCollection.Add(entityCylinderic);
             //Создаем операцию кинематического вырезания
             entityCutEvolution.Create();
+        }
+
+        private void BuildText(string text, double height,double diameterOut)
+        {
+            #region Константы
+
+            // Тип объекта NewEntity. Указывает на создание эскиза.
+            const int o3d_sketch = 5;
+
+            // Тип объекта GetDefaultEntity. Указывает на работу в плостости XOY.
+            const int o3d_planeXOY = 1;
+
+            //Смещенная плоскость
+            const int o3d_planeOffset = 14;
+
+            //Тип выдавливания. Строго на глубину.
+            const int etBlind = 0;
+            //Тип объекта NewEntity. Вырезать выдавливанием.
+            const int o3d_CutExtrusion = 26;
+            //Тип направления вырезания. Обратное направление.
+            const int dtReverse = 1;
+
+            double startIndex = ((diameterOut * 27) / 100);
+
+            #endregion
+
+            //Получаем интерфейс объекта "смещенная плоскость"
+            ksEntity entityDrawOffset = _part.NewEntity(o3d_planeOffset);
+            //Получаем интерфейс параметров смещенной плоскости
+            ksPlaneOffsetDefinition planeDefinition = entityDrawOffset.GetDefinition();
+            //Задаем расстояние смещенной плоскости от объекта
+            planeDefinition.offset = height - ((height / 100) * 3);
+            //Задаем направление смещенной плоскости
+            planeDefinition.direction = true;
+            //Получаем интерфейс объекта "плоскость XOY"
+            ksEntity entityPlaneOffset = _part.GetDefaultEntity(o3d_planeXOY);
+            //Получаем базовую плоскость смещенной плоскости по "XOY"
+            planeDefinition.SetPlane(entityPlaneOffset);
+            //Создаем смещенную плоскость
+            entityDrawOffset.Create();
+
+
+            //Получаем интерфейс объект "эскиз"
+            _entityDraw = _part.NewEntity(o3d_sketch);
+            //Получаем интерфейс параметров эскиза
+            ksSketchDefinition sketchDefinition = _entityDraw.GetDefinition();
+            //Устанавливаем плоскость "смещенную базовой" для эскиза
+            sketchDefinition.SetPlane(planeDefinition);
+            //Создаем эскиз
+            _entityDraw.Create();
+            //Входим в режим редактирования эскиза
+            ksDocument2D doc2D = sketchDefinition.BeginEdit();
+
+           
+
+            // Задаем надпись на эскизе
+            doc2D.ksText(-startIndex, startIndex,
+                0, //без наклона
+                diameterOut/9, //шрифт
+                0, //без растяжения
+                0, //обычный текст
+                text);
+
+            //Выходим из режима редактирования эскиза
+            sketchDefinition.EndEdit();
+
+            //Получаем интерфейс объекта "операция вырезание выдавливанием"
+            ksEntity entityCutExtrusion = (_part.NewEntity(o3d_CutExtrusion));
+            //Получаем интерфейс параметров операции
+            ksCutExtrusionDefinition cutExtrusionDefinition = (entityCutExtrusion.GetDefinition());
+            //Вычитание элементов
+            cutExtrusionDefinition.cut = true;
+            //Обратное направление
+            cutExtrusionDefinition.directionType = dtReverse;
+            //Устанавливаем параметры выдавливания
+            cutExtrusionDefinition.SetSideParam(false, etBlind, 1, 0, false);
+            //Устанавливаем экиз операции
+            cutExtrusionDefinition.SetSketch(sketchDefinition);
+            //Создаем операцию вырезания выдавливанием
+            entityCutExtrusion.Create();
+
+        }
+
+        private void MarkerTextValidation(string text, double diameterOut)
+        {
+            #region Константы для эскиза
+            // Тип компо­нента Get Param. Главный компонент, в составе которо­го находится новый или редактируе­мый компонент.
+            const int pTop_part = -1;
+
+            //Тип объекта NewEntity. Указывает на создание эскиза.
+            const int o3d_sketch = 5;
+
+            // Тип объекта GetDefaultEntity. Указывает на работу в плостости XOY.
+            const int o3d_planeXOY = 1;
+            #endregion
+
+            //Получаем интерфейс 3D-модели 
+            _part = _doc3D.GetPart(pTop_part);
+            //Получаем интерфейс объекта "Эскиз"
+            _entityDraw = _part.NewEntity(o3d_sketch);
+            //Получаем интерфейс параметров эскиза
+            ksSketchDefinition SketchDefinition = _entityDraw.GetDefinition();
+            //Получаем интерфейс объекта "плоскость XOY"
+            ksEntity entityPlane = _part.GetDefaultEntity(o3d_planeXOY);
+            //Устанавливаем плоскость XOY базовой для эскиза
+            SketchDefinition.SetPlane(entityPlane);
+            //Создаем эскиз
+            _entityDraw.Create();
+            //Входим в режим редактирования эскиза
+            ksDocument2D document2D = SketchDefinition.BeginEdit();
+
+            if (document2D.ksGetTextLength(text, 1) >= 100)
+            {
+                _doc3D.close();
+                throw new ArgumentException("Длина сообщения слишком большая");
+                
+            }
+            //Выходим из режима редактирования эскиза
+            SketchDefinition.EndEdit();
         }
     }
 }

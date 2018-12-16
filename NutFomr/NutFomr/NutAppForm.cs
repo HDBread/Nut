@@ -37,7 +37,7 @@ namespace NutForm
                     Convert.ToDouble(HeightTextBox.Text), Convert.ToDouble(KeyTextBox.Text),
                     Convert.ToInt32(AngleComboBox.SelectedItem));
 
-                NutBuilder nutBuilder = new NutBuilder(_kompas);
+                NutBuilder nutBuilder = new NutBuilder(_kompas,MarkerTextBox.Text);
                 nutBuilder.BuildDetail(nutParameters);
             }
             catch (ParameterException exception)
@@ -55,6 +55,11 @@ namespace NutForm
             catch (FormatException)
             {
                 MessageBox.Show("Не все параметры имели верный формат ввода", "Ошибка формата данных",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ArgumentException exception)
+            {
+                MessageBox.Show(exception.Message, "Ошибка ввода текста маркировки",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -232,6 +237,10 @@ namespace NutForm
            CheckParsing(ref diameterOut, ref diameterIn, ref height, ref keyParameter);
         }
 
-
+        private void MarkerCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            MarkerTextBox.Enabled = (MarkerCheckBox.Checked);
+            MarkerTextBox.Text = (MarkerCheckBox.Checked) ? MarkerTextBox.Text : String.Empty;
+        }
     }
 }
