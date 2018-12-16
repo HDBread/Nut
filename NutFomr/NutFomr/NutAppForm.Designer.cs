@@ -104,6 +104,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DoutTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.DoutTextBox.Location = new System.Drawing.Point(254, 161);
+            this.DoutTextBox.MaxLength = 5;
             this.DoutTextBox.Name = "DoutTextBox";
             this.DoutTextBox.Size = new System.Drawing.Size(63, 20);
             this.DoutTextBox.TabIndex = 7;
@@ -125,6 +126,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DinTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.DinTextBox.Location = new System.Drawing.Point(254, 135);
+            this.DinTextBox.MaxLength = 5;
             this.DinTextBox.Name = "DinTextBox";
             this.DinTextBox.Size = new System.Drawing.Size(63, 20);
             this.DinTextBox.TabIndex = 6;
@@ -146,6 +148,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.HeightTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.HeightTextBox.Location = new System.Drawing.Point(254, 109);
+            this.HeightTextBox.MaxLength = 5;
             this.HeightTextBox.Name = "HeightTextBox";
             this.HeightTextBox.Size = new System.Drawing.Size(63, 20);
             this.HeightTextBox.TabIndex = 5;
@@ -167,6 +170,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.KeyTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.KeyTextBox.Location = new System.Drawing.Point(254, 83);
+            this.KeyTextBox.MaxLength = 5;
             this.KeyTextBox.Name = "KeyTextBox";
             this.KeyTextBox.Size = new System.Drawing.Size(63, 20);
             this.KeyTextBox.TabIndex = 4;
@@ -298,6 +302,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Name = "NutAppForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Плагин \"Гайка\"";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NutAppForm_FormClosing);
             this.menuStrip.ResumeLayout(false);

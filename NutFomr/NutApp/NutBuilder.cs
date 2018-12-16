@@ -9,9 +9,9 @@ namespace NutApp
         /// </summary>
         private KompasObject _kompas;
 
-        ksPart Part;
-        ksEntity EntityDraw;
-        Document3D doc3D;
+        private ksPart _part;
+        private ksEntity _entityDraw;
+        private Document3D _doc3D;
 
 
 
@@ -31,8 +31,8 @@ namespace NutApp
         public void BuildDetail(NutParameters nutParameters)
         {
             
-            doc3D = _kompas.Document3D();
-            doc3D.Create(false, true);
+            _doc3D = _kompas.Document3D();
+            _doc3D.Create(false, true);
 
             BuildModel(nutParameters.DiameterIn, nutParameters.DiameterOut);
             BuildExtrusion(nutParameters.Height);
@@ -61,17 +61,17 @@ namespace NutApp
             #endregion
 
             //Получаем интерфейс 3D-модели 
-            Part = doc3D.GetPart(pTop_part);
+            _part = _doc3D.GetPart(pTop_part);
             //Получаем интерфейс объекта "Эскиз"
-            EntityDraw = Part.NewEntity(o3d_sketch);
+            _entityDraw = _part.NewEntity(o3d_sketch);
             //Получаем интерфейс параметров эскиза
-            ksSketchDefinition SketchDefinition = EntityDraw.GetDefinition();
+            ksSketchDefinition SketchDefinition = _entityDraw.GetDefinition();
             //Получаем интерфейс объекта "плоскость XOY"
-            ksEntity EntityPlane = Part.GetDefaultEntity(o3d_planeXOY);
+            ksEntity EntityPlane = _part.GetDefaultEntity(o3d_planeXOY);
             //Устанавливаем плоскость XOY базовой для эскиза
             SketchDefinition.SetPlane(EntityPlane);
             //Создаем эскиз
-            EntityDraw.Create();
+            _entityDraw.Create();
             //Входим в режим редактирования эскиза
             ksDocument2D Document2D = SketchDefinition.BeginEdit();
             //Строим окружность (Указывается радиус, поэтому диаметр делим попалам)
@@ -97,19 +97,19 @@ namespace NutApp
             #endregion
 
             //Получаем интерфейс объекта "операция выдавливание"
-            ksEntity EntityExtrusion = Part.NewEntity(o3d_baseExtrusion);
+            ksEntity EntityExtrusion = _part.NewEntity(o3d_baseExtrusion);
             //Получаем интерфейс параметров операции "выдавливание"
             ksBaseExtrusionDefinition BaseExtrusionDefinition = EntityExtrusion.GetDefinition();
             //Устанавливаем параметры операции выдавливания
             BaseExtrusionDefinition.SetSideParam(true, etBlind, heigth, 0, true);
             //Устанавливаем эскиз операции выдавливания
-            BaseExtrusionDefinition.SetSketch(EntityDraw);
+            BaseExtrusionDefinition.SetSketch(_entityDraw);
             //Создаем операцию выдавливания
             EntityExtrusion.Create();
             //Устанавливаем полутоновое изображение модели
-            doc3D.drawMode = vm_Shaded;
+            _doc3D.drawMode = vm_Shaded;
             //Включаем отображение каркаса
-            doc3D.shadedWireframe= true;
+            _doc3D.shadedWireframe= true;
         }
 
         /// <summary>
@@ -129,8 +129,8 @@ namespace NutApp
             #endregion
 
             //Получаем интерфейс объекта "фаска"
-            ksEntity EntityChamferOut = (Part.NewEntity(o3d_chamfer));
-            ksEntity EntityChamferIn = (Part.NewEntity(o3d_chamfer));
+            ksEntity EntityChamferOut = (_part.NewEntity(o3d_chamfer));
+            ksEntity EntityChamferIn = (_part.NewEntity(o3d_chamfer));
 
             //Получаем интерфейс параметров объекта "скругление"
             ksChamferDefinition ChamferDefinitionOut = EntityChamferOut.GetDefinition();
@@ -146,7 +146,7 @@ namespace NutApp
             ChamferDefinitionIn.SetChamferParam(true, keyParam / 10, (keyParam / 10) / index);
 
             //Получаем массив поверхностей детали
-            ksEntityCollection EntityCollectionPart = (Part.EntityCollection(o3d_face));
+            ksEntityCollection EntityCollectionPart = (_part.EntityCollection(o3d_face));
 
             //Получаем массив поверхностей, на которых будет строиться фаска
             ksEntityCollection EntityCollectionChamferOut = (ChamferDefinitionOut.array());
@@ -207,15 +207,15 @@ namespace NutApp
             #endregion
 
             //Получаем интерфейс объекта "Эскиз"
-            EntityDraw = Part.NewEntity(o3d_sketch);
+            _entityDraw = _part.NewEntity(o3d_sketch);
             //Получаем интерфейс параметров эскиза
-            ksSketchDefinition SketchDefinition = EntityDraw.GetDefinition();
+            ksSketchDefinition SketchDefinition = _entityDraw.GetDefinition();
             //Получаем интерфейс объекта "плоскость XOY"
-            ksEntity EntityPlane = Part.GetDefaultEntity(o3d_planeXOY);
+            ksEntity EntityPlane = _part.GetDefaultEntity(o3d_planeXOY);
             //Устанавливаем плоскость XOY базовой для эскиза
             SketchDefinition.SetPlane(EntityPlane);
             //Создаем эскиз
-            EntityDraw.Create();
+            _entityDraw.Create();
             //Входим в режим редактирования эскиза
             ksDocument2D Document2D = SketchDefinition.BeginEdit();
             //Строим окружность многобольшего диаметра
@@ -226,7 +226,7 @@ namespace NutApp
             SketchDefinition.EndEdit();
 
             //Получаем интерфейс объекта "операция вырезание выдавливанием"
-            ksEntity EntityCutExtrusion = (Part.NewEntity(o3d_CutExtrusion));
+            ksEntity EntityCutExtrusion = (_part.NewEntity(o3d_CutExtrusion));
             //Получаем интерфейс параметров операции
             ksCutExtrusionDefinition CutExtrusionDefinition = (EntityCutExtrusion.GetDefinition());
             //Вычитание элементов
@@ -286,9 +286,9 @@ namespace NutApp
             #endregion
 
             //Получаем интерфейс 3D-модели 
-            Part = doc3D.GetPart(pTop_part);
+            _part = _doc3D.GetPart(pTop_part);
             //Получаем интерфейс объекта "смещенная плоскость"
-            ksEntity entityDrawOffset = Part.NewEntity(o3d_planeOffset);
+            ksEntity entityDrawOffset = _part.NewEntity(o3d_planeOffset);
             //Получаем интерфейс параметров смещенной плоскости
             ksPlaneOffsetDefinition planeDefinition = entityDrawOffset.GetDefinition();
             //Задаем расстояние смещенной плоскости от объекта
@@ -296,14 +296,14 @@ namespace NutApp
             //Задаем направление смещенной плоскости
             planeDefinition.direction = false;
             //Получаем интерфейс объекта "плоскость XOY"
-            ksEntity EntityPlaneOffset = Part.GetDefaultEntity(o3d_planeXOY);
+            ksEntity EntityPlaneOffset = _part.GetDefaultEntity(o3d_planeXOY);
             //Получаем базовую плоскость смещенной плоскости по "XOY"
             planeDefinition.SetPlane(EntityPlaneOffset);
             //Создаем смещенную плоскость
             entityDrawOffset.Create();
 
             //Получаем интерфейс объекта "Цилиндрическая спираль"
-            ksEntity entityCylinderic = Part.NewEntity(o3d_cylindricSpiral);
+            ksEntity entityCylinderic = _part.NewEntity(o3d_cylindricSpiral);
             //Получаем интерфейс параметров цилиндрической спирали
             ksCylindricSpiralDefinition cylindricSpiral = entityCylinderic.GetDefinition();
             //Получаем базовую плоскость цилиндрической спирали по смещенной плоскости
@@ -339,15 +339,15 @@ namespace NutApp
             entityCylinderic.Create();
 
             //Получаем интерфейс объекта "Эскиз"
-            EntityDraw = Part.NewEntity(o3d_sketch);
+            _entityDraw = _part.NewEntity(o3d_sketch);
             //Получаем интерфейс параметров эскиза
-            ksSketchDefinition sketchDefinition = EntityDraw.GetDefinition();
+            ksSketchDefinition sketchDefinition = _entityDraw.GetDefinition();
             //Получаем интерфейс объекта "плоскость XOZ"
-            ksEntity EntityPlane = Part.GetDefaultEntity(o3d_planeXOZ);
+            ksEntity EntityPlane = _part.GetDefaultEntity(o3d_planeXOZ);
             //Получить базовую плоскость эскиза
             sketchDefinition.SetPlane(EntityPlane);
             //Создаем эскиз
-            EntityDraw.Create();
+            _entityDraw.Create();
             //Входим в режим редактирования эскиза
             Document2D document2D = sketchDefinition.BeginEdit();
 
@@ -376,7 +376,7 @@ namespace NutApp
             sketchDefinition.EndEdit();
 
             //Получаем интерфейс операции кинематического вырезания
-            ksEntity entityCutEvolution= Part.NewEntity(o3d_cutEvolution);
+            ksEntity entityCutEvolution= _part.NewEntity(o3d_cutEvolution);
             //Получаем интерфейс параметров операции кинематического вырезания
             ksCutEvolutionDefinition cutEvolutionDefinition = entityCutEvolution.GetDefinition();
             //Вычитане объектов 
