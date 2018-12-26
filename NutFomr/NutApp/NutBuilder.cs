@@ -9,7 +9,7 @@ namespace NutApp
         /// Экземпляр компаса
         /// </summary>
         private KompasObject _kompas;
-
+        
         private string _markerText;
 
         private ksPart _part;
@@ -17,11 +17,11 @@ namespace NutApp
         private Document3D _doc3D;
 
 
-
         /// <summary>
         /// Конструктор класса NutBuilder
         /// </summary>
         /// <param name="kompasObj">Экземпляр КОМПАС'а передаваемый в построитель</param>
+        /// <param name="markerText">Текст маркировки</param>
         public NutBuilder(KompasObject kompasObj, string markerText)
         {
             this._kompas = kompasObj;
@@ -37,13 +37,17 @@ namespace NutApp
             _doc3D = _kompas.Document3D();
             _doc3D.Create(false, true);
 
-            MarkerTextValidation(_markerText, nutParameters.DiameterOut);
+            if (_markerText != String.Empty)
+            {
+                MarkerTextValidation(_markerText, nutParameters.DiameterOut);
+            }
 
             BuildModel(nutParameters.DiameterIn, nutParameters.DiameterOut);
             BuildExtrusion(nutParameters.Height);
             BuildChamfer(nutParameters.DiameterIn, nutParameters.Angle, nutParameters.KeyParam);
             BuildIndentation(nutParameters.DiameterOut, nutParameters.Height);
             BuildThread(nutParameters.Dnom, nutParameters.Height, nutParameters.DiameterIn);
+
             if (_markerText != String.Empty)
             {
                 BuildText(_markerText, nutParameters.Height, nutParameters.DiameterOut);
@@ -404,6 +408,12 @@ namespace NutApp
             entityCutEvolution.Create();
         }
 
+        /// <summary>
+        /// Операция "Маркировка"
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="height"></param>
+        /// <param name="diameterOut"></param>
         private void BuildText(string text, double height,double diameterOut)
         {
             #region Константы
@@ -455,8 +465,6 @@ namespace NutApp
             //Входим в режим редактирования эскиза
             ksDocument2D doc2D = sketchDefinition.BeginEdit();
 
-           
-
             // Задаем надпись на эскизе
             doc2D.ksText(-startIndex, startIndex,
                 0, //без наклона
@@ -485,9 +493,14 @@ namespace NutApp
 
         }
 
+        /// <summary>
+        /// Метод проверки длинны маркировки
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="diameterOut"></param>
         private void MarkerTextValidation(string text, double diameterOut)
         {
-            #region Константы для эскиза
+            #region Константы для проверки маркировки
             // Тип компо­нента Get Param. Главный компонент, в составе которо­го находится новый или редактируе­мый компонент.
             const int pTop_part = -1;
 

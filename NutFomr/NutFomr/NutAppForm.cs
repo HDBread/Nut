@@ -119,7 +119,6 @@ namespace NutForm
             {
                 _kompasConnector.Disconnect();
             }
-            
         }
 
         /// <summary>
@@ -219,7 +218,7 @@ namespace NutForm
             {
                 errorProvider.SetError(KeyTextBox, string.Empty);
                 KeyTextBox.BackColor = Color.White;
-            }   
+            }
         }
 
         /// <summary>
