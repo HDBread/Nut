@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Environment = System.Environment;
 
 
-namespace HandleApp.UnitTest
+namespace NutAppUnitTests
 {
     [TestClass]
     public class SrtessTest
