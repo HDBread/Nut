@@ -236,6 +236,11 @@ namespace NutForm
            CheckParsing(ref diameterOut, ref diameterIn, ref height, ref keyParameter);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MarkerCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             MarkerTextBox.Enabled = (MarkerCheckBox.Checked);

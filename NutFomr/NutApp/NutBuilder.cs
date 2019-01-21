@@ -129,8 +129,9 @@ namespace NutApp
         /// <summary>
         /// Операция "Фаска" для всех граней
         /// </summary>
-        /// <param name="dNom">Номинальный диметр резьбы</param>
+        /// <param name="diameterIn">Внутренний диаметр резьбы</param>
         /// <param name="angle">Угол фаски головки</param>
+        /// <param name="keyParam">Параметр "под ключ"</param>
         private void BuildChamfer(double diameterIn, int angle, double keyParam)
         {
             #region Константы для фаски
@@ -179,7 +180,7 @@ namespace NutApp
         }
 
         /// <summary>
-        /// Операция "Вырезание выдавливанием"
+        /// Операция "Вырезание выдавливанием" (сделать шестиугольник)
         /// </summary>
         /// <param name="diametrOut">Внешний диаметр резьбы</param>
         /// <param name="heigth">Высота гайки</param>
@@ -411,9 +412,9 @@ namespace NutApp
         /// <summary>
         /// Операция "Маркировка"
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="height"></param>
-        /// <param name="diameterOut"></param>
+        /// <param name="text">Текст маркировки</param>
+        /// <param name="height">Высота гайки</param>
+        /// <param name="diameterOut">Внешний диаметр резьбы</param>
         private void BuildText(string text, double height,double diameterOut)
         {
             #region Константы
@@ -496,8 +497,8 @@ namespace NutApp
         /// <summary>
         /// Метод проверки длинны маркировки
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="diameterOut"></param>
+        /// <param name="text">Текст маркировки</param>
+        /// <param name="diameterOut">Внешний диаметр резьбы</param>
         private void MarkerTextValidation(string text, double diameterOut)
         {
             #region Константы для проверки маркировки

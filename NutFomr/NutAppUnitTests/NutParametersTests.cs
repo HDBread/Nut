@@ -278,7 +278,6 @@ namespace NutAppUnitTests
             Assert.AreEqual(_keyParameter,_nutParameters.KeyParam, "Ошибка метода SettingParameters, задается неправильное значение параметра \"под ключ\"");
         }
 
-        //TODO: Подавать в TestCase несколько параметров?
         [TestCase(3,"Выполняется, если метод CheckParameters передает правильные типы ошибок",
             TestName = "Проверка метода CheckParmeter")]
         public void TestCheckParameters_CorrectExcceptions(int expectedCount, string message)

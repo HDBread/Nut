@@ -12,7 +12,7 @@ using Environment = System.Environment;
 namespace NutAppUnitTests
 {
     [TestClass]
-    public class SrtessTest
+    public class StressTests
     {
         private KompasObject _kompas;
         private StreamWriter _writer;
@@ -31,9 +31,8 @@ namespace NutAppUnitTests
             StartKompas();
             var builder = new NutBuilder(_kompas, String.Empty);
             var parameters = new NutParameters(4.2,1.7,2,1.6,4,15);
-            var count = 20;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; ; i++)
             {
                 var processes = Process.GetProcessesByName("KOMPAS");
                 var process = processes.First();

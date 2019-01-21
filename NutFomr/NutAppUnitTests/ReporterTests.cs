@@ -55,7 +55,7 @@ namespace NutAppUnitTests
             Assert.AreEqual(expectedMessage, actualMessage, "При ошибке \"NegativeValueDiameterOut\" составляется не правильное сообщение");
         }
 
-        [TestCase("Высота  -  нуливое и не несет в себе смылса",
+        [TestCase("Высота  -  нулевое  и не несет в себе смысла",
             "Выполняется, если составляется не правильное сообщение ошибки выхода за границы параметра \"под ключ\"",
             TestName = "Негативный тест провверки правильности сообщения ошибки OutOfRangeKeyParameter")]
         public void TestReporterOutOfRangeKeyParameter_IncorrectMessage(string expectedMessage, string message)

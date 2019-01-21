@@ -102,6 +102,10 @@ namespace NutApp
             }
         }
 
+        /// <summary>
+        /// Установка значений параметров по ГОСТ'у
+        /// </summary>
+        /// <param name="dNom">Номинальный диаметр резьбы</param>
         private void InitDefaults(double dNom)
         {
             _dNom = dNom;

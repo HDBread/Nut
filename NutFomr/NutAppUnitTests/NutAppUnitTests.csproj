@@ -61,7 +61,7 @@
     <Compile Include="NutParametersTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReporterTests.cs" />
-    <Compile Include="SrtessTest.cs" />
+    <Compile Include="StressTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
